@@ -2,8 +2,12 @@ import React from 'react'
 import { Close, DeleteOutline } from '@mui/icons-material';
 import { Dialog, Box, Typography, InputBase, TextField, Button } from "@mui/material"
 import useStore from './store';
+import useApi from "../Middleware/UseAPI"
+import { API_URLS } from '../APIs/API_URLS';
 
 export default function ComposeMail() {
+    const sentEmailService=useApi(API_URLS.savesentEmail);
+
     const { setInputData, Data, ComposeStatus, toggleComposestatus } = useStore();
     const Sendemail = (e) => {
         e.preventDefault()
@@ -22,6 +26,18 @@ export default function ComposeMail() {
             );
         }
 
+        const payload={
+            to:Data.To,
+            from:"samiiwork1@gmail.com",
+            subject:Data.Subject,
+            body: Data.Body,
+            date: new Date(),
+            image:"",
+            name: "Shahzaib uddin",
+            starred: false,
+            type:"sent"
+        }
+        sentEmailService.call(payload);
     }
     const handleInputChange = (event) => {
         const { name, value } = event.target;

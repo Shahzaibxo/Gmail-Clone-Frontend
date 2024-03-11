@@ -14,7 +14,7 @@ export default function SidebarContent() {
       <List>
         {
           Sidebad_elements.map(element=>(
-            <ListItem sx={{
+            <ListItem key={element.name} sx={{
               padding: '10px',
               fontSize: '14px',
               fontWeight: '500',
