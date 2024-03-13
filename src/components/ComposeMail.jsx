@@ -14,8 +14,8 @@ export default function ComposeMail() {
         if (window.Email) {
             window.Email.send({
                 Host: "smtp.elasticemail.com",
-                Username: "samiiwork1@gmail.com",
-                Password: "9A39CE38F38E1767E122FB8BAA7BEAF8992E",
+                Username: process.env.REACT_APP_USERNAME,
+                Password: process.env.REACT_APP_PASSWORD,
                 Port: 2525,
                 From: "samiiwork1@gmail.com",
                 To: Data.To,
