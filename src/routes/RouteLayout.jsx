@@ -2,9 +2,12 @@ import React from 'react'
 import { Outlet } from 'react-router-dom'
 import Header2 from "../components/Header2"
 import Sidebar2 from "../components/Sidebar2"
-import { Box } from '@mui/material'
+import { Box, Snackbar } from '@mui/material'
+import ComposeEmail from "../components/ComposeMail"
+
 
 export default function RouteLayout() {
+
     return (
         <>
             <Header2/>
@@ -14,8 +17,8 @@ export default function RouteLayout() {
 
                     <Outlet/>
                 </Box>
-
             </Box>
+            <ComposeEmail/>
         </>
     )
 }

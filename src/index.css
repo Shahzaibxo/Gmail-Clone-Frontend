@@ -3,3 +3,13 @@
   margin:0;
   font-family:sans-serif;
 }
+::-webkit-scrollbar{
+  width: 8px;
+}
+::-webkit-scrollbar-thumb{
+  border-radius: 20px;
+  background: rgb(215, 225, 225);
+}
+::-webkit-scrollbar-track{
+  background: rgba(236, 241, 243, 0);
+}

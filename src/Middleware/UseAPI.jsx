@@ -1,24 +1,27 @@
-import React, { useState } from 'react'
-import Gmail_API from '../APIs/api'
+import { useState } from 'react';
+import axios from "axios";
 
-const useAPI=(urlobj)=> {
+const useAPI=(APItype)=> {
     const [response, setResponse] = useState(null);
-    const [error, seterror] = useState("")
-    const [loading, setLoading] = useState(false)
-    const call = async (payload) => {
-        setLoading(true)
-        seterror("")
-        setResponse(null)
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(true)
+    const call = async (payload, type="") => {
+        setResponse(null);
+
         try {
-            const res = await Gmail_API(urlobj, payload)
-            setResponse(res.data)
+            const res = await axios({
+                method: APItype.method,
+                url: `http://localhost:8000/${APItype.endpoint}/${type}`,
+                data: payload
+              });
+            setResponse(res.data);
+            setLoading(false)
         } catch (error) {
-            seterror(error.message);
-        } finally{
-            setLoading(false);
-        }
+            setError(error.message);
+            setLoading(false)
+        } 
     }
-    return {call, error, response, loading}
+    return { call, response, error, loading }
 };
 
 export default useAPI

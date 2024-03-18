@@ -19,7 +19,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 
 
 export default function PrimarySearchAppBar() {
-    const { toggleMenustatus } = useStore();
+    const { togglefunction, SideMenuStatus } = useStore();
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -117,7 +117,6 @@ export default function PrimarySearchAppBar() {
             </MenuItem>
         </Menu>
     );
-
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" sx={{backgroundColor:"#f3f3fb", minHeight:"64px"}}>
@@ -128,7 +127,7 @@ export default function PrimarySearchAppBar() {
                         color="inherit"
                         aria-label="open drawer"
                         sx={{ mr: 2 }}
-                        onClick={()=>{toggleMenustatus()}}
+                        onClick={()=>{togglefunction('SideMenuStatus')}}
                     >
                         <MenuIcon sx={{color:"black"}}/>
                     </IconButton>
@@ -139,7 +138,7 @@ export default function PrimarySearchAppBar() {
 
                     <Box sx={{ flexGrow: 1 }} />
 
-                    <Box sx={{ background: "#EAF1FB", width: "100%", maxWidth: "740px", paddingX: "5px", borderRadius: "25px", display: "flex", alignItems: "center", height: "48px", "&>div": { width: "90%" } }}>
+                    <Box sx={{ marginTop:"10px",background: "#EAF1FB", width: "100%", maxWidth: "740px", paddingX: "5px", borderRadius: "25px", display: "flex", alignItems: "center", height: "48px", "&>div": { width: "90%" } }}>
                         <SearchIcon sx={{color:"black"}} />
                         <InputBase sx={{ marginLeft: "10px" }} placeholder='Search email' />
                         <TuneIcon sx={{color:"black"}} />
