@@ -14,12 +14,15 @@ const useAPI=(APItype)=> {
                 url: `http://localhost:8000/${APItype.endpoint}/${type}`,
                 data: payload
               });
-            setResponse(res.data);
-            setLoading(false)
-        } catch (error) {
+              setResponse(res.data);
+        } 
+        catch (error) {
             setError(error.message);
             setLoading(false)
         } 
+        finally{
+            setLoading(false)
+        }
     }
     return { call, response, error, loading }
 };

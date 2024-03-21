@@ -52,17 +52,10 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 export default function MiniDrawer() {
-    const { SideMenuStatus, ComposeStatus ,togglefunction } = useStore()
+    const { SideMenuStatus ,togglefunction } = useStore()
     const { param } = useParams()
     
 
-    const arrayOfRoutes=["inbox","starred","sent","draft","bin","all mail"];
-
-    if (!arrayOfRoutes.includes(param)){
-        return (
-            <Navigate to="/emails/inbox"/>
-        )
-    };
     
     const composefunc = ()=>{
         togglefunction('ComposeStatus');
@@ -93,32 +86,29 @@ export default function MiniDrawer() {
                                 >
                                     <ListItemIcon size="small"
                                         sx={text.name === "compose" ? {
-                                            minWidth: 0,
                                             mr: open ? null : 'auto',
                                             justifyContent: 'center',
                                             backgroundColor: "none",
                                             color: "#001d35",
                                             borderRadius: "20px",
-                                            textTransform: "none",
-
-
+                                            textTransform: "none"
                                         } : {
                                             minWidth: 0,
                                             mr: open ? 3 : 'auto',
                                             justifyContent: 'center',
                                             color: "#001d35"
-
                                         }}
                                     >
-                                        <text.icon sx={text.name === "compose" ? {
+                                        <text.icon fontSize='large' sx={text.name === "compose" ? {
                                             backgroundColor: "none",
-                                            background: SideMenuStatus ? "none" : "#c2e7ff",
+                                            background: SideMenuStatus ? "#c2e7ff" : "#c2e7ff",
+                                            width:"45px",
+                                            height:"35px",
                                             color: "#001d35",
                                             borderRadius: "16px",
                                             textTransform: "none",
-                                            padding: "10px",
-                                            mr: open ? 1.6 : 'auto',
-                                            
+                                            padding:"5px",
+                                            mr: open ? 1.3 : 'auto',
                                         } : { color: "#001d35",height:"20px",
                                         width:"20px", }} />
                                     </ListItemIcon>

@@ -13,7 +13,7 @@ export default function RouteLayout() {
             <Header2/>
             <Box sx={{ display: "flex" }}>
                 <Sidebar2 />
-                <Box sx={{ flexGrow: 1, p: 3 }}>
+                <Box sx={{ flexGrow: 1, p: 0 }}>
 
                     <Outlet/>
                 </Box>

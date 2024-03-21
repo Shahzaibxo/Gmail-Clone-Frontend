@@ -6,22 +6,10 @@ const useStore = create((set)=>({
     ErrorbarStatus:false,
     MainCheckboxStatus:false,
     refreshscreenstate:true,
-    payload:{
-        to:"",
-        from:"samiiwork1@gmail.com",
-        subject:"",
-        body: "",
-        date: new Date(),
-        image:"",
-        name: "Shahzaib uddin",
-        starred: false,
-        type:"sent",
-        checked:false,
-        inbox:false
-    },
+    error:"",
     togglefunction: (key) => set((state) => ({ [key]: !state[key] })),
     falsemark: (key) => set((state) => ({ [key]: false })),
-    setpayloadData: (newpayload) => set((state) => ({payload: { ...state.payload, ...newpayload } })),
+    setStringValue: (newValue) => set({ error: newValue }),
 }));
 
 export default useStore
