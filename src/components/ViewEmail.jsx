@@ -15,8 +15,6 @@ export default function ViewEmail() {
     }
   }, [])
 
-  const { email } = state;
-  console.log(email)
   return (
     <>
       <Box sx={{ width: "76vw" }}>
@@ -31,10 +29,10 @@ export default function ViewEmail() {
         <Box sx={{ wordBreak: "break-word", height: "auto", fontSize: { lg: "24px", xs: "14px" }, display: "flex", flexDirection: "row", alignItems: "center" }}>
           <div style={{ marginRight: "5px" }}>
 
-            {email.subject}
+            {state?.subject}
           </div>
 
-          <Chip color="warning" variant="dot">{email.type}</Chip>
+          <Chip color="warning" variant="dot">{state?.type}</Chip>
 
           <IconButton sx={{ marginLeft: "auto" }}>
 

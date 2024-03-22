@@ -12,7 +12,11 @@ export const API_URLS={
         endpoint:"Savedraft"
     },
     movetobin:{
-        method:"POST",
+        method:"DELETE",
         endpoint:"movetobin"
+    },
+    togglestar:{
+        method:"PUT",
+        endpoint:"starmark"
     }
 }
