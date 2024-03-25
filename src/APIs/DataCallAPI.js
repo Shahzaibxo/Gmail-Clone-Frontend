@@ -5,7 +5,7 @@ const fetchDataAPI= async(param)=>{
   try {
     const res = await axios({
       method: API_URLS.getEmailfromparam.method,
-      url: `http://localhost:8000/${API_URLS.getEmailfromparam.endpoint}/${param}`,
+      url: `https://bbackend-clone.vercel.app/${API_URLS.getEmailfromparam.endpoint}/${param}`,
     });
     console.log(res.data)
     return res.data;

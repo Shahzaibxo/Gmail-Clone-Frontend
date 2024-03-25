@@ -4,6 +4,7 @@ const useStore = create((set) => ({
     themestatus: false,
     SideMenuStatus: false,
     ComposeStatus: false,
+    ComposeStatus2:false,
     ErrorbarStatus: false,
     MainCheckboxStatus: false,
     refreshscreenstate: true,

@@ -46,7 +46,7 @@ export default function Emails() {
   const { data, status } = useQuery({
     queryKey: ["mainquery", param], queryFn: async () => {
       const datas = await fetchDataAPI(param);
-      console.log("new data fetching")
+      console.log("new data fetching...")
       return datas;
     }
   })
@@ -64,7 +64,7 @@ export default function Emails() {
   const DeleteAPi = async () => {
     const res2 = await axios({
       method: API_URLS.movetobin.method,
-      url: `http://localhost:8000/${API_URLS.movetobin.endpoint}/${param}`,
+      url: `https://bbackend-clone.vercel.app/${API_URLS.movetobin.endpoint}/${param}`,
       data: selectedarray
     });
     setStringValue(res2.data)

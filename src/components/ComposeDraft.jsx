@@ -6,20 +6,20 @@ import { useState } from 'react';
 import useStore from './store';
 import axios from "axios";
 import React from 'react'
-import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 
-export default function ComposeMail() {
-    const queryClient = useQueryClient();
-    const [input, setinput] = useState("");
-    const [subject, setsubject] = useState("");
-    const [textfield, settextfield] = useState("");
+export default function ComposeDraft({ email }) {
+    const queryClient = useQueryClient()
+    const navigatetodraft = useNavigate();
+    const [input, setinput] = useState(email.to)
+    const [subject, setsubject] = useState(email.subject)
+    const [textfield, settextfield] = useState(email.body)
 
 
-    const { setStringValue, ComposeStatus, togglefunction } = useStore();
-    
-    
+    const { setStringValue, ErrorbarStatus, ComposeStatus2, togglefunction } = useStore();
+
     const payload = {
         to: input,
         from: "samiiwork1@gmail.com",
@@ -33,78 +33,59 @@ export default function ComposeMail() {
         checked: false,
         inbox: false
     }
-    const Dpayload = {
-        to: input,
-        from: "samiiwork1@gmail.com",
-        subject: subject,
-        body: textfield,
-        date: new Date(),
-        image: "",
-        name: "Shahzaib uddin",
-        starred: false,
-        type: "draft",
-        checked: false,
-        inbox: false
-    }
 
     const DraftAPI = async () => {
         const res = await axios({
-            method: API_URLS.saveDraftEmail.method,
-            url: `https://bbackend-clone.vercel.app/${API_URLS.saveDraftEmail.endpoint}`,
-            data: Dpayload
+            method: API_URLS.updatedraft.method,
+            url: `https://bbackend-clone.vercel.app/${API_URLS.updatedraft.endpoint}`,
+            data: { id: email._id, input: input, sub: subject, body: textfield }
         })
         setStringValue(res.data)
         togglefunction("ErrorbarStatus")
-        setinput("")
-        settextfield("")
-        setsubject("")
     }
+
     const SendAPI = async () => {
-        try {
-            const res = await axios({
-                method: API_URLS.saveSentEmail.method,
-                url: `https://bbackend-clone.vercel.app/${API_URLS.saveSentEmail.endpoint}`,
-                data: payload
-            });
-            togglefunction('ComposeStatus');
-            setStringValue(res.data)
-            togglefunction("ErrorbarStatus")
-            setinput("")
-            settextfield("")
-            setsubject("")
-        } catch (error) {
-            togglefunction("ErrorbarStatus")
-            setStringValue(error)
-        }
+        const res = await axios({
+            method: API_URLS.sentfromdraft.method,
+            url: `https://bbackend-clone.vercel.app/${API_URLS.sentfromdraft.endpoint}`,
+            data: {payload:payload, id:email._id}
+        });
+        setStringValue(res.data)
+        togglefunction("ErrorbarStatus")
+
     }
-    
-    
-    const Draftmutation = useMutation({
+
+    const Draftmutation2 = useMutation({
         mutationFn: () => DraftAPI()
         ,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["mainquery"] })
+            console.log("mutation done");
+            togglefunction('ComposeStatus2');
         }
     })
-    const Sendmutation = useMutation({
+
+    const drafthandler = async (e) => {
+        e.preventDefault();
+        if (input === "" && subject === "" && textfield === "") {
+            togglefunction("ErrorbarStatus")
+            setStringValue("Email discarded")
+            togglefunction("ComposeStatus2")
+        }
+        else {
+            Draftmutation2.mutate();
+            navigatetodraft(`/emails/draft`)
+        }
+    }
+
+    const Sendfromdraftmutation = useMutation({
         mutationFn: () => SendAPI()
         ,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["mainquery"] })
+            togglefunction("ComposeStatus2")
         }
     })
-
-    const Savetodraft = async (e) => {
-        e.preventDefault();
-        togglefunction("ComposeStatus");
-        if (input === "" && subject === "" && textfield === "") {
-            togglefunction("ErrorbarStatus")
-            setStringValue("Email discarded")
-        }
-        else {
-            Draftmutation.mutate()
-        }
-    };
 
     const Sendemail = async (e) => {
         const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
@@ -117,7 +98,9 @@ export default function ComposeMail() {
             if (payload.to === "samiiwork1@gmail.com") {
                 payload.inbox = true
             }
-            Sendmutation.mutate()
+            Sendfromdraftmutation.mutate()
+            navigatetodraft(`/emails/draft`)
+
         }
         else {
             setStringValue("Write a correct email address")
@@ -125,19 +108,18 @@ export default function ComposeMail() {
         }
     }
 
-
     return (
         <>
             <Dialog
                 PaperProps={{ sx: { height: "80%", width: "80%", maxWidth: "100%", maxHeight: "100%", boxShadow: "none", overflow: "hidden", borderRadius: "10px 10px 0 0" } }}
-                open={ComposeStatus}>
+                open={ComposeStatus2}>
                 <Box
                     sx={{ display: "flex", justifyContent: "space-between", padding: "10px 15px", "&>p": { fontWeight: 500, fontSize: 14 } }}>
                     <Typography>
                         New Message
                     </Typography>
                     <Close
-                        onClick={(e) => Savetodraft(e)}
+                        onClick={(e) => drafthandler(e)}
                         fontSize='small' />
                 </Box>
                 <Box
@@ -151,7 +133,7 @@ export default function ComposeMail() {
                         placeholder='Subject' />
                 </Box>
                 <TextField
-                value={textfield}
+                    value={textfield}
                     onChange={(e) => settextfield(e.target.value)}
                     name="body"
                     multiline
@@ -168,7 +150,7 @@ export default function ComposeMail() {
                     </Button>
                     <Button
                         sx={{ transform: "scale(0.9)" }}
-                        onClick={() => { togglefunction('ComposeStatus') }}
+                        onClick={() => { togglefunction('ComposeStatus2') }}
                         variant="outlined"
                         startIcon={<Delete />}>
                         Delete

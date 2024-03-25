@@ -10,7 +10,6 @@ import useStore from "./store";
 import axios from 'axios';
 import "../App.css"
 
-
 export default function Email({ email }) {
     const queryClient = useQueryClient()
     const StarRef = useRef(false)
@@ -20,17 +19,19 @@ export default function Email({ email }) {
     const onclick = () => {
         navigate(`/emails/${param}/view`, { state: email });
     }
-    const { themestatus, togglefunction, selectedarray } = useStore()
+
+    const { themestatus, selectedarray } = useStore()
 
 
     const UpdatestarAPI = async () => {
         await axios({
             method: API_URLS.togglestar.method,
-            url: `http://localhost:8000/${API_URLS.togglestar.endpoint}`,
+            url: `https://bbackend-clone.vercel.app/${API_URLS.togglestar.endpoint}`,
             data: [email._id]
         });
       
     }
+
     const toggleStarMutation = useMutation({
         mutationFn: () => UpdatestarAPI()
         ,

@@ -8,7 +8,7 @@ const Deletes = async (selectedarray,param) => {
 
     const res2 = await axios({
       method: API_URLS.movetobin.method,
-      url: `http://localhost:8000/${API_URLS.movetobin.endpoint}/${param}`,
+      url: `https://bbackend-clone.vercel.app/${API_URLS.movetobin.endpoint}/${param}`,
       data: selectedarray
     });
     setStringValue(res2.data)

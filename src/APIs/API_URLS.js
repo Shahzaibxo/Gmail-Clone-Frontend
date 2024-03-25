@@ -18,5 +18,13 @@ export const API_URLS={
     togglestar:{
         method:"PUT",
         endpoint:"starmark"
+    },
+    updatedraft:{
+        method:"PUT",
+        endpoint:"updatedraft"
+    },
+    sentfromdraft:{
+        method:"POSt",
+        endpoint:"sentfromdraft"
     }
 }
