@@ -43,10 +43,10 @@ const getDesignTokens = (mode) => ({
 const queryClient = new QueryClient()
 
 export default function RouteLayout() {
+  const { falsemark, themestatus, truemark } = useStore()
   const darkModeTheme = themestatus ? createTheme(getDesignTokens('dark')) : createTheme(getDesignTokens('light'));
 
 
-  const { falsemark, themestatus, truemark } = useStore()
 
   return (
     <>
