@@ -1,3 +1,5 @@
+import NightsStayTwoToneIcon from '@mui/icons-material/NightsStayTwoTone';
+import LightModeTwoToneIcon from '@mui/icons-material/LightModeTwoTone';
 import * as React from 'react';
 import useStore from './store';
 import { gmailLogo } from "../assets/Gmail";
@@ -19,7 +21,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 
 
 export default function PrimarySearchAppBar() {
-    const { togglefunction, SideMenuStatus } = useStore();
+    const { togglefunction, SideMenuStatus, themestatus } = useStore();
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -62,7 +64,7 @@ export default function PrimarySearchAppBar() {
             onClose={handleMenuClose}
         >
             <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+            <MenuItem sx={{ color: "red" }} onClick={handleMenuClose}>Log Out</MenuItem>
         </Menu>
     );
 
@@ -85,8 +87,8 @@ export default function PrimarySearchAppBar() {
         >
             <MenuItem>
                 <IconButton size="large" color="inherit">
-                    <Badge  color="error">
-                    <HelpOutlineOutlinedIcon color='action'/>
+                    <Badge color="error">
+                        <HelpOutlineOutlinedIcon color='action' />
                     </Badge>
                 </IconButton>
                 <p>Help</p>
@@ -97,11 +99,21 @@ export default function PrimarySearchAppBar() {
                     color="inherit"
                 >
                     <Badge badgeContent={1} color="error">
-                        <SettingsOutlinedIcon  color='action'/>
+                        <SettingsOutlinedIcon color='action' />
 
                     </Badge>
                 </IconButton>
                 <p>Settings</p>
+            </MenuItem>
+            <MenuItem onClick={() => { togglefunction("themestatus") }}>
+                <IconButton
+                    size="large"
+                >
+                    {themestatus ? <NightsStayTwoToneIcon /> : <LightModeTwoToneIcon color='black' />}
+                    <Badge color="error">
+                    </Badge>
+                </IconButton>
+                <p>Switch Themes</p>
             </MenuItem>
             <MenuItem onClick={handleProfileMenuOpen}>
                 <IconButton
@@ -111,15 +123,16 @@ export default function PrimarySearchAppBar() {
                     aria-haspopup="true"
                     color="inherit"
                 >
-                    <Avatar alt="Remy Sharp" sx={{height:"1.5em", width:"1.5em"}} src="https://avatars.githubusercontent.com/u/145616378?s=400&u=4b2b22764aec2af4e0179f63b51508a56a40440a&v=4" />
+                    <Avatar alt="Remy Sharp" sx={{ height: "1.5em", width: "1.5em" }} src="https://avatars.githubusercontent.com/u/145616378?s=400&u=4b2b22764aec2af4e0179f63b51508a56a40440a&v=4" />
                 </IconButton>
                 <p>Profile</p>
             </MenuItem>
         </Menu>
     );
+
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" sx={{backgroundColor:"#f3f3fb", minHeight:"64px"}}>
+            <AppBar position="static" sx={themestatus ? { minHeight: "64px" } : { background: "#f3f3fb", minHeight: "64px" }}>
                 <Toolbar>
                     <IconButton
                         size="large"
@@ -127,21 +140,21 @@ export default function PrimarySearchAppBar() {
                         color="inherit"
                         aria-label="open drawer"
                         sx={{ mr: 2 }}
-                        onClick={()=>{togglefunction('SideMenuStatus')}}
+                        onClick={() => { togglefunction('SideMenuStatus') }}
                     >
-                        <MenuIcon sx={{color:"black"}}/>
+                        <MenuIcon sx={{ color: "black" }} />
                     </IconButton>
                     <Box sx={{ display: { xs: 'none', sm: 'block', marginTop: "9px" } }}>
 
-                        <img src={gmailLogo} alt="logo here" />
+                        <img src={gmailLogo} style={!themestatus ? null : { filter: "invert(90%)" }} alt="logo here" />
                     </Box>
 
                     <Box sx={{ flexGrow: 1 }} />
 
-                    <Box sx={{ marginTop:"10px",background: "#EAF1FB", width: "100%", maxWidth: "740px", paddingX: "5px", borderRadius: "25px", display: "flex", alignItems: "center", height: "48px", "&>div": { width: "90%" } }}>
-                        <SearchIcon sx={{color:"black"}} />
-                        <InputBase sx={{ marginLeft: "10px" }} placeholder='Search email' />
-                        <TuneIcon sx={{color:"black"}} />
+                    <Box sx={{ background: "#EAF1FB", width: "100%", maxWidth: "740px", paddingX: "5px", borderRadius: "25px", display: "flex", alignItems: "center", height: "48px", "&>div": { width: "90%" } }}>
+                        <SearchIcon sx={{ color: "black" }} />
+                        <InputBase sx={{ marginLeft: "10px", color: "black" }} placeholder='Search email' />
+                        <TuneIcon sx={{ color: "black" }} />
                     </Box>
                     <Box sx={{ flexGrow: 1 }} />
 
@@ -157,9 +170,18 @@ export default function PrimarySearchAppBar() {
                             color="inherit"
                         >
                             <Badge color="error">
-                            <HelpOutlineOutlinedIcon color='action'/>
+                                <HelpOutlineOutlinedIcon color='action' />
                             </Badge>
                         </IconButton>
+                        <IconButton
+                            size="large"
+                            onClick={() => { togglefunction("themestatus") }}
+                        >
+                            <Badge color="error">
+                                {themestatus ? <NightsStayTwoToneIcon /> : <LightModeTwoToneIcon color='black' />}
+                            </Badge>
+                        </IconButton>
+
                         <IconButton
                             size="large"
                             edge="end"
@@ -169,7 +191,7 @@ export default function PrimarySearchAppBar() {
                             onClick={handleProfileMenuOpen}
                             color="inherit"
                         >
-                        <Avatar alt="Remy Sharp" sx={{height:"2em", width:"2em"}} src="https://avatars.githubusercontent.com/u/145616378?s=400&u=4b2b22764aec2af4e0179f63b51508a56a40440a&v=4" />                        </IconButton>
+                            <Avatar alt="Remy Sharp" sx={{ height: "2em", width: "2em" }} src="https://avatars.githubusercontent.com/u/145616378?s=400&u=4b2b22764aec2af4e0179f63b51508a56a40440a&v=4" />                        </IconButton>
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                         <IconButton

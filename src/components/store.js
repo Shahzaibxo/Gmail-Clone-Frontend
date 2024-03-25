@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 
 const useStore = create((set) => ({
+    themestatus: false,
     SideMenuStatus: false,
     ComposeStatus: false,
     ErrorbarStatus: false,
@@ -20,6 +21,7 @@ const useStore = create((set) => ({
     }),
     togglefunction: (key) => set((state) => ({ [key]: !state[key] })),
     falsemark: (key) => set((state) => ({ [key]: false })),
+    truemark: (key) => set((state) => ({ [key]: true })),
     setStringValue: (newValue) => set({ error: newValue }),
 }));
 

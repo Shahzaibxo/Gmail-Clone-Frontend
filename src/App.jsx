@@ -3,24 +3,25 @@ import RouteLayout from "./routes/RouteLayout"
 import Emails from "./components/Emails.jsx"
 import ViewEmail from "./components/ViewEmail"
 
+
 function App() {
 
   const routes = createBrowserRouter(
     createRoutesFromElements(
       <>
-      {/* Root Route */}
-        
+        {/* Root Route */}
+
         <Route path="/" element={<Navigate to={"/emails/inbox"} />} />
-      
-      {/* Inbox Route */}
+
+        {/* Inbox Route */}
         <Route path="/emails/:param" element={<RouteLayout />}>
           <Route index element={<Emails />} />
-        
+
           {/* Sub Route */}
           <Route path="view" element={<ViewEmail />} />
         </Route>
 
-      {/* Safety Route */}
+        {/* Invalid reroute */}
         <Route path="*" element={<Navigate to="/emails/inbox" />} />
       </>
     )

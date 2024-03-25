@@ -19,7 +19,6 @@ const openedMixin = (theme) => ({
     }),
     overflowX: 'hidden',
 });
-
 const closedMixin = (theme) => ({
     transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
@@ -31,9 +30,6 @@ const closedMixin = (theme) => ({
         width: `calc(${theme.spacing(8)} + 1px)`,
     },
 });
-
-
-
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
         width: drawerWidth,
@@ -50,12 +46,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
         }),
     }),
 );
-
 export default function MiniDrawer() {
     const { SideMenuStatus ,togglefunction } = useStore()
     const { param } = useParams()
-    
-
     
     const composefunc = ()=>{
         togglefunction('ComposeStatus');
@@ -66,7 +59,7 @@ export default function MiniDrawer() {
 
     return (
         <>
-            <Drawer variant="permanent" open={SideMenuStatus}  sx={{ "& .MuiPaper-root": { position:"relative", backgroundColor: "#f3f3fb", boxShadow: "0 5px 10px -5px rgba(0, 0, 0, 0.5)",height:"100vh" } }}>
+            <Drawer variant="permanent" open={SideMenuStatus}  sx={{ "& .MuiPaper-root": { position:"relative", boxShadow: "0 5px 10px -5px rgba(0, 0, 0, 0.5)",height:"100vh" } }}>
 
                 <List sx={{"&>a":{textDecoration:"none", color:"inherit"}}}>
                     {Sidebad_elements.map((text) => (
@@ -77,7 +70,7 @@ export default function MiniDrawer() {
                                         minHeight: 40,
                                         justifyContent: open ? 'initial' : 'center',
                                         background: SideMenuStatus ? "#c2e7ff" : "none",
-                                        borderRadius: 30,
+                                        borderRadius: 40,
                                         paddingLeft: 0.5,
                                         maxWidth: "160px",
                                         marginBottom:"10px"
@@ -89,7 +82,7 @@ export default function MiniDrawer() {
                                             mr: open ? null : 'auto',
                                             justifyContent: 'center',
                                             backgroundColor: "none",
-                                            color: "#001d35",
+                                            
                                             borderRadius: "20px",
                                             textTransform: "none"
                                         } : {
@@ -99,9 +92,9 @@ export default function MiniDrawer() {
                                             color: "#001d35"
                                         }}
                                     >
-                                        <text.icon fontSize='large' sx={text.name === "compose" ? {
+                                        <text.icon sx={text.name === "compose" ? {
                                             backgroundColor: "none",
-                                            background: SideMenuStatus ? "#c2e7ff" : "#c2e7ff",
+                                            background: SideMenuStatus ? "none" : "#c2e7ff",
                                             width:"45px",
                                             height:"35px",
                                             color: "#001d35",
@@ -109,7 +102,7 @@ export default function MiniDrawer() {
                                             textTransform: "none",
                                             padding:"5px",
                                             mr: open ? 1.3 : 'auto',
-                                        } : { color: "#001d35",height:"20px",
+                                        } : { color: "#001d35",height:"18px",
                                         width:"20px", }} />
                                     </ListItemIcon>
                                     <ListItemText primary={text.title} sx={{ opacity: open ? 1 : 0, color: "#001d35" }} />

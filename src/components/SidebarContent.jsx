@@ -11,15 +11,15 @@ export default function SidebarContent() {
   return (
     <div style={{padding:16}}>
       <Button onClick={toggleComposestatus} sx={{backgroundColor:"none",background:"#c2e7ff",color:"#001d35", padding:"16px", borderRadius:"16px", minWidth:"140px", textTransform:"none"}}><CreateOutlinedIcon/>Compose</Button>
-      <List>
+      <List >
         {
           Sidebad_elements.map(element=>(
             <ListItem key={element.name} sx={{
               padding: '10px',
-              fontSize: '14px',
+              fontSize: '15px',
               fontWeight: '500',
               cursor: 'pointer'}}>
-              <element.icon fontSize='small' sx={{marginRight:2}}/>{element.title}
+              <element.icon fontSize='10px' sx={{marginRight:2}}/>{element.title}
             </ListItem>
           ))
         }
