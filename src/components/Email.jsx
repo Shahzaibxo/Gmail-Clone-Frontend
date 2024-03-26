@@ -70,7 +70,7 @@ export default function Email({ email }) {
 
                     <Box onClick={onclick}
                         sx={{ marginLeft: "5px", width: { md: "200px", lg: "300px" }, fontSize: { xs: "11px", lg: "14px" }, fontWeight: 500 }}>
-                        {param === "sent" ? `To: ${email.name}` : email.name}
+                        {param === "sent" ? `To: ${email.to}` : email.to}
                     </Box>
 
                 </Box>
