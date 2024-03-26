@@ -26,7 +26,9 @@ function App() {
         </Route>
 
         {/* Invalid reroute */}
+        <Route path="/*" element={<Navigate to="/landing" />} />
         <Route path="*" element={<Navigate to="/landing" />} />
+
       </>
     )
   )
