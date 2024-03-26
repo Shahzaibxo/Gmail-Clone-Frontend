@@ -120,6 +120,8 @@ export default function ComposeMail() {
             setsubject("No Subject")
         }
         if (emailRegex.test(payload.to)) {
+        const username = input.split("@")[0];
+        payload.name= username
             Sendmutation.mutate()
         }
         else {
