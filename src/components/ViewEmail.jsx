@@ -10,9 +10,11 @@ import useStore from './store';
 import { API_URLS } from '../APIs/API_URLS';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export default function ViewEmail() {
   const { state } = useLocation();
+  const queryClient = useQueryClient()
   const {param}= useParams();
   const navigate = useNavigate();
   const navigateback=useNavigate()
