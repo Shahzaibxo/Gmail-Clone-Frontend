@@ -20,7 +20,7 @@ export default function ComposeMail() {
     const { setStringValue, ComposeStatus, togglefunction } = useStore();
     
     
-    const payload = {
+    let payload = {
         to: input,
         from: "samiiwork1@gmail.com",
         subject: subject,
@@ -33,7 +33,7 @@ export default function ComposeMail() {
         checked: false,
         inbox: false
     }
-    const Dpayload = {
+    let Dpayload = {
         to: input,
         from: "samiiwork1@gmail.com",
         subject: subject,
@@ -59,8 +59,14 @@ export default function ComposeMail() {
         settextfield("")
         setsubject("")
     }
+    
     const SendAPI = async () => {
+        if (input === "shahzuwork@gmail.com") {
+            payload.inbox=true
+            console.log("triggere")
+        }
         try {
+            console.log(input, "this is it")
             const res = await axios({
                 method: API_URLS.saveSentEmail.method,
                 url: `https://backend-gmail-finalss.vercel.app/${API_URLS.saveSentEmail.endpoint}`,
@@ -77,7 +83,7 @@ export default function ComposeMail() {
             setStringValue(error)
         }
     }
-    
+    console.log(input,'not it')
     
     const Draftmutation = useMutation({
         mutationFn: () => DraftAPI()
@@ -114,9 +120,6 @@ export default function ComposeMail() {
             setsubject("No Subject")
         }
         if (emailRegex.test(payload.to)) {
-            if (payload.to === "samiiwork1@gmail.com") {
-                payload.inbox = true
-            }
             Sendmutation.mutate()
         }
         else {
