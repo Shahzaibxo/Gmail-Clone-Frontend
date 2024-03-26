@@ -12,10 +12,8 @@ function App() {
       <>
         {/* Root Route */}
 
-        <Route path="/" element={<Navigate to={"/landing"} />} />
-
-        {/* Landing Route */}
         <Route path="/landing" element={<Landing/>} />
+
 
         {/* Inbox Route */}
         <Route path="/emails/:param" element={<RouteLayout />}>
@@ -26,9 +24,7 @@ function App() {
         </Route>
 
         {/* Invalid reroute */}
-        <Route path="/*" element={<Navigate to="/landing" />} />
         <Route path="*" element={<Navigate to="/landing" />} />
-
       </>
     )
   )
