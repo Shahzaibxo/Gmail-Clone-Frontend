@@ -6,7 +6,7 @@ import Landing from "./components/Landing.jsx"
 
 
 function App() {
-
+  
   const routes = createBrowserRouter(
     createRoutesFromElements(
       <>
@@ -23,12 +23,10 @@ function App() {
           <Route path="view" element={<ViewEmail />} />
         </Route>
 
-        {/* Invalid reroute */}
-        <Route path="*" element={<Navigate to="/landing" />} />
       </>
     )
   )
-
+  
   return (
     <RouterProvider router={routes} />
   )
