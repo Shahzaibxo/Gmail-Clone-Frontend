@@ -26,7 +26,7 @@ export default function Email({ email }) {
     const UpdatestarAPI = async () => {
         await axios({
             method: API_URLS.togglestar.method,
-            url: `https://bbackend-clone.vercel.app/${API_URLS.togglestar.endpoint}`,
+            url: `https://backend-gmail-finalss.vercel.app/${API_URLS.togglestar.endpoint}`,
             data: [email._id]
         });
       

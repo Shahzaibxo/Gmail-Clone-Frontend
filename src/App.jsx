@@ -2,6 +2,7 @@ import { createBrowserRouter, createRoutesFromElements, Navigate, Route, RouterP
 import RouteLayout from "./routes/RouteLayout"
 import Emails from "./components/Emails.jsx"
 import ViewEmail from "./components/ViewEmail"
+import Landing from "./components/Landing.jsx"
 
 
 function App() {
@@ -11,7 +12,10 @@ function App() {
       <>
         {/* Root Route */}
 
-        <Route path="/" element={<Navigate to={"/emails/inbox"} />} />
+        <Route path="/" element={<Navigate to={"/landing"} />} />
+
+        {/* Landing Route */}
+        <Route path="/landing" element={<Landing/>} />
 
         {/* Inbox Route */}
         <Route path="/emails/:param" element={<RouteLayout />}>
@@ -22,7 +26,7 @@ function App() {
         </Route>
 
         {/* Invalid reroute */}
-        <Route path="*" element={<Navigate to="/emails/inbox" />} />
+        <Route path="*" element={<Navigate to="/landing" />} />
       </>
     )
   )

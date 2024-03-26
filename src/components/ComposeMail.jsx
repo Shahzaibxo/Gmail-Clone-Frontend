@@ -50,7 +50,7 @@ export default function ComposeMail() {
     const DraftAPI = async () => {
         const res = await axios({
             method: API_URLS.saveDraftEmail.method,
-            url: `https://bbackend-clone.vercel.app/${API_URLS.saveDraftEmail.endpoint}`,
+            url: `https://backend-gmail-finalss.vercel.app/${API_URLS.saveDraftEmail.endpoint}`,
             data: Dpayload
         })
         setStringValue(res.data)
@@ -63,7 +63,7 @@ export default function ComposeMail() {
         try {
             const res = await axios({
                 method: API_URLS.saveSentEmail.method,
-                url: `https://bbackend-clone.vercel.app/${API_URLS.saveSentEmail.endpoint}`,
+                url: `https://backend-gmail-finalss.vercel.app/${API_URLS.saveSentEmail.endpoint}`,
                 data: payload
             });
             togglefunction('ComposeStatus');

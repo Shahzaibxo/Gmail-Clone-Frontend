@@ -37,7 +37,7 @@ export default function ComposeDraft({ email }) {
     const DraftAPI = async () => {
         const res = await axios({
             method: API_URLS.updatedraft.method,
-            url: `https://bbackend-clone.vercel.app/${API_URLS.updatedraft.endpoint}`,
+            url: `https://backend-gmail-finalss.vercel.app/API_URLS.updatedraft.endpoint}`,
             data: { id: email._id, input: input, sub: subject, body: textfield }
         })
         setStringValue(res.data)
@@ -47,7 +47,7 @@ export default function ComposeDraft({ email }) {
     const SendAPI = async () => {
         const res = await axios({
             method: API_URLS.sentfromdraft.method,
-            url: `https://bbackend-clone.vercel.app/${API_URLS.sentfromdraft.endpoint}`,
+            url: `https://backend-gmail-finalss.vercel.app/${API_URLS.sentfromdraft.endpoint}`,
             data: {payload:payload, id:email._id}
         });
         setStringValue(res.data)
