@@ -126,7 +126,7 @@ export default function Emails() {
           status === "success" && data?.length === 0 ?
             <Box sx={{ fontSize: { xs: "13px" }, marginTop: "30px", height: "100vh", textAlign: "center" }}>
               No Emails Found on {param} tab...<br />
-              {param === "inbox" ? <p>Send an Email to your address to display emails here...</p> : param === "starred" ? <p>Star mark an Email to display it here..</p> : param === "sent" ? <p>Send an Email to Display them here</p> : param === "draft" ? <p>Close an Email you're about to compose to save it in drafts...</p> : param === "bin" ? <p>Delete any Email to display it here...</p> : null}
+              {param === "inbox" ? <p>Send an Email to "shahzuwork@gmail.com" to display emails here...</p> : param === "starred" ? <p>Star mark an Email to display it here..</p> : param === "sent" ? <p>Send an Email to Display them here</p> : param === "draft" ? <p>Close an Email you're about to compose to save it in drafts...</p> : param === "bin" ? <p>Delete any Email to display it here...</p> : null}
             </Box>
 
             :
