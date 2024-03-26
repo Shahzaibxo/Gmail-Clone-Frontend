@@ -1,7 +1,7 @@
 
 # Gmail Clone
 
-https://gmail-clone-frontend-sepia.vercel.app/landing
+https://gmail-clone-frontend-sepia.vercel.app
 
 Tech used:
 
