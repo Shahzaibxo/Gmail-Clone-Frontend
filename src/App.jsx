@@ -12,7 +12,7 @@ function App() {
       <>
         {/* Root Route */}
 
-        <Route path="/landing" element={<Landing/>} />
+        <Route path="/" element={<Landing/>} />
 
 
         {/* Inbox Route */}
@@ -23,6 +23,8 @@ function App() {
           <Route path="view" element={<ViewEmail />} />
         </Route>
 
+        {/* Invalid reroute */}
+        <Route path="*" element={<Navigate to="/" />} />
       </>
     )
   )
