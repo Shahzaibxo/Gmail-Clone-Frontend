@@ -7,13 +7,42 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Chip } from "@nextui-org/react";
 import ComposeDraft from './ComposeDraft';
 import useStore from './store';
-
+import { API_URLS } from '../APIs/API_URLS';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 export default function ViewEmail() {
   const { state } = useLocation();
+  const {param}= useParams();
   const navigate = useNavigate();
+  const navigateback=useNavigate()
 
-  const { togglefunction } = useStore()
+  const { togglefunction,setStringValue } = useStore()
+  
+  const DeleteAPi = async () => {
+    const res2 = await axios({
+      method: API_URLS.movetobin.method,
+      url: `https://backend-gmail-finalss.vercel.app/${API_URLS.movetobin.endpoint}/${param}`,
+      data: [state._id]
+    });
+    setStringValue(res2.data)
+    togglefunction("ErrorbarStatus")
+  
+  }
+
+  
+  const DeleteMutation2 = useMutation({
+    mutationFn: () => DeleteAPi()
+    ,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["mainquery"] })
+    }
+  })
+
+  const deletehandler=()=>{
+    DeleteMutation2.mutate();
+    navigateback(`/emails/${param}`)
+  }
 
   if (state === undefined || state === null) {
     navigate("/emails/inbox")
@@ -34,7 +63,9 @@ export default function ViewEmail() {
           <IconButton>
             <DeleteOutline
               fontSize='small'
-              sx={{ color: "black" }} />
+              sx={{ color: "black" }} 
+              onClick={()=>{deletehandler()}}
+              />
           </IconButton>
         </Box>
         <Box
