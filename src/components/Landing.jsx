@@ -16,7 +16,7 @@ export default function Landing() {
     return (
         <div style={{height:"100vh", width:"100vw",background: "linear-gradient(135deg, #f0f4f7, #dfe6e9)" }}>
 
-        <div style={{ height: "100vh",width: "80vw", margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", fontFamily:"arial", fontSize: "16px" }}>
+        <div style={{ height: "100vh",width: "80vw" ,margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", fontFamily:"arial", fontSize: "16px" }}>
             📩 Gmail Clone
             
             <br />
@@ -28,7 +28,7 @@ export default function Landing() {
             🔨) Mongodb Atlas - CRUD operations performed on data collections. <br />
             <Button className="mt-3" onClick={() => handleclick()} variant='shadow' color='success' size='medium' startContent={<DataObjectIcon />} >Redirect to App</Button>
             <div style={{height:"120px", width:"120px"}} >
-            <img src={RunningGif} style={{marginTop:"10px" ,height: "auto", width: "auto" }} />
+            <img src={RunningGif} style={{marginTop:"10px" ,height: "150px"}} />
             </div>
         </div>
         </div>
