@@ -1,3 +1,4 @@
+import { Fab } from '@mui/material';
 import React from 'react'
 import Avatar from '@mui/material/Avatar';
 import { Button } from "@nextui-org/react";
@@ -138,7 +139,7 @@ export default function ViewEmail() {
               Reply
             </Button>
           }
-
+        
         </Box>
         <ComposeDraft email={state} />
       </Box>
