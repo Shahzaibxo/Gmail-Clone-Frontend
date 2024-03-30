@@ -3,7 +3,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ComposeEmail from "../components/ComposeMail"
 import { grey, blue } from '@mui/material/colors'
 import { Box, CssBaseline } from '@mui/material'
-import Sidebar2 from "../components/Sidebar2"
+import Sidebar from "../components/Sidebar"
 import Header2 from "../components/Header2"
 import useStore from '../components/store'
 import { Outlet } from 'react-router-dom'
@@ -56,15 +56,12 @@ export default function RouteLayout() {
         <ThemeProvider theme={darkModeTheme}>
           <CssBaseline />
           {/* Main app */}
+
           <Header2 />
-          <Box sx={{ display: "flex" }}>
-            <div onMouseOver={() => { truemark("SideMenuStatus") }} onMouseLeave={() => { falsemark("SideMenuStatus") }} >
-              <Sidebar2 />
-            </div>
-            <Box onClick={() => { falsemark("SideMenuStatus") }} sx={{ flexGrow: 1, p: 0 }}>
-              <Outlet />
-            </Box>
-          </Box>
+
+          <Sidebar />
+          <Outlet />
+
           <ComposeEmail />
 
         </ThemeProvider>

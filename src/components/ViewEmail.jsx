@@ -53,7 +53,7 @@ export default function ViewEmail() {
   return (
     <>
       <Box
-        sx={{ width: "97%", display: "flex", flexDirection: "column" }}>
+        sx={{ width: "97%", display: "flex",height:"100vh" ,flexDirection: "column" }}>
         <Box
           sx={{ marginBottom: "20px", marginTop: "10px" }}>
           <IconButton
@@ -131,7 +131,7 @@ export default function ViewEmail() {
               Edit
             </Button> :
             <Button
-              className='w-18 h-8 text-blue mt-2'
+              className='w-18 h-8 text-blue mt-5'
               radius='full'
               variant='ghost'
               startContent={<Reply />}>

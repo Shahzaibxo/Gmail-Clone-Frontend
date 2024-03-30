@@ -3,6 +3,7 @@ import InboxRoundedIcon from '@mui/icons-material/InboxRounded';
 import { Box, IconButton, List, Snackbar } from '@mui/material';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import { useParams, useNavigate } from "react-router-dom"
+import emptyimg from "../assets/empty.jpeg"
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useEffect, useState, useRef } from 'react';
 import { DeleteOutline } from '@mui/icons-material';
@@ -125,6 +126,7 @@ export default function Emails() {
         {value === "one" ?
           status === "success" && data?.length === 0 ?
             <Box sx={{ fontSize: { xs: "13px" }, marginTop: "30px", height: "100vh", textAlign: "center" }}>
+              <img src={emptyimg} style={{height:"200px", margin:"0 auto"}} alt="" />
               No Emails Found on {param} tab...<br />
               {param === "inbox" ? <p>Send an Email to "shahzuwork@gmail.com" to display emails here...</p> : param === "starred" ? <p>Star mark an Email to display it here..</p> : param === "sent" ? <p>Send an Email to Display them here</p> : param === "draft" ? <p>Close an Email you're about to compose to save it in drafts...</p> : param === "bin" ? <p>Delete any Email to display it here...</p> : null}
             </Box>

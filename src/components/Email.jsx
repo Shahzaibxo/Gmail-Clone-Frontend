@@ -29,14 +29,14 @@ export default function Email({ email }) {
             url: `https://backend-gmail-finalss.vercel.app/${API_URLS.togglestar.endpoint}`,
             data: [email._id]
         });
-      
+
     }
 
     const toggleStarMutation = useMutation({
         mutationFn: () => UpdatestarAPI()
         ,
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey:["mainquery"]})
+            queryClient.invalidateQueries({ queryKey: ["mainquery"] })
         }
     })
 
@@ -70,7 +70,7 @@ export default function Email({ email }) {
 
                     <Box onClick={onclick}
                         sx={{ marginLeft: "5px", width: { md: "200px", lg: "300px" }, fontSize: { xs: "11px", lg: "14px" }, fontWeight: 500 }}>
-                        {param === "sent" ? `To: ${email.to}` : email.to}
+                        {param === "sent" ? `To: ${email.name}` : email.name}
                     </Box>
 
                 </Box>
@@ -79,7 +79,7 @@ export default function Email({ email }) {
                     param === "draft" ?
                         <Chip
                             onClick={onclick}
-                            className="sm:hidden ml-auto transform scale-80"
+                            className="ml-auto transform scale-80"
                             color="danger"
                             variant="shadow">
                             {email.type}
@@ -90,7 +90,7 @@ export default function Email({ email }) {
                             className="ml-auto hidden sm:flex transform scale-80"
                             radius='md'
                             color="primary"
-                            variant="bordered">
+                            variant="flat">
                             {email.type}
                         </Chip>
                 }
@@ -99,7 +99,7 @@ export default function Email({ email }) {
                     onClick={onclick}
                     sx={{ paddingLeft: "40px", display: "flex", flexGrow: 1, alignItems: "baseline", }}>
                     <Typography
-                        sx={{ paddingLeft: "7px", fontSize: { xs: "11px", lg: "14px" }, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", width: { xs: "200px", sm: "400px", lg: "600px" } }}>
+                        sx={{ paddingLeft: "7px", fontSize: { xs: "11px", lg: "14px" }, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", width: { xs: "260px", sm: "500px", lg: "700px" } }}>
                         {email.subject}&nbsp;-&nbsp;{email.body}
                     </Typography>
                     <Typography

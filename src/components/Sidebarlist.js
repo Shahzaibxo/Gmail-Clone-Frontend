@@ -1,13 +1,7 @@
 import { CreateOutlined,Inbox,DeleteOutline, InsertDriveFileOutlined, MailOutline, SendOutlined, StarOutline } from '@mui/icons-material';
 
 export const Sidebad_elements=[
-    {
-      name:"compose",
-      title:"Compose",
-      icon:CreateOutlined
-    },
-    
-    {
+     {
       name:"inbox",
       title:"Inbox",
       icon:Inbox

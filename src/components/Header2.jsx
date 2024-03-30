@@ -151,9 +151,9 @@ export default function PrimarySearchAppBar() {
 
                     <Box sx={{ flexGrow: 1 }} />
 
-                    <Box sx={{ background: "#EAF1FB", width: "100%", maxWidth: "740px", paddingX: "5px", borderRadius: "25px", display: "flex", alignItems: "center", height: "48px", "&>div": { width: "90%" } }}>
+                    <Box sx={{marginTop:"10px" ,background: "#EAF1FB", width: "100%", maxWidth: "740px", paddingX: "5px", borderRadius: "25px", display: "flex", alignItems: "center", height: "48px", "&>div": { width: "90%" } }}>
                         <SearchIcon sx={{ color: "black" }} />
-                        <InputBase sx={{ marginLeft: "10px", color: "black" }} placeholder='Search email' />
+                        <InputBase sx={{marginLeft: "10px", color: "black" }} placeholder='Search email' />
                         <TuneIcon sx={{ color: "black" }} />
                     </Box>
                     <Box sx={{ flexGrow: 1 }} />
