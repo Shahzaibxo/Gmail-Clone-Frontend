@@ -1,3 +1,4 @@
+import Fab from '@mui/material/Fab';
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import InboxRoundedIcon from '@mui/icons-material/InboxRounded';
 import { Box, IconButton, List, Snackbar } from '@mui/material';
@@ -6,7 +7,7 @@ import { useParams, useNavigate } from "react-router-dom"
 import emptyimg from "../assets/empty.jpeg"
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useEffect, useState, useRef } from 'react';
-import { DeleteOutline } from '@mui/icons-material';
+import { DeleteOutline, Add } from '@mui/icons-material';
 import fetchDataAPI from "../APIs/DataCallAPI.js"
 import { Checkbox } from "@nextui-org/react";
 import { API_URLS } from '../APIs/API_URLS';
@@ -24,7 +25,7 @@ export default function Emails() {
 
   const CheckboxRef = useRef(false)
 
-  const { togglefunction, selectedarray, clearSelectedArray, appendToStringArray, refreshscreenstate, ErrorbarStatus, error, setStringValue } = useStore()
+  const { togglefunction, ComposeStatus, selectedarray, clearSelectedArray, appendToStringArray, refreshscreenstate, ErrorbarStatus, error, setStringValue } = useStore()
 
   const navigate = useNavigate();
   const { param } = useParams();
@@ -110,6 +111,7 @@ export default function Emails() {
           <IconButton onClick={() => togglefunction("refreshscreenstate")}>
             <RefreshIcon fontSize='small' sx={{ color: "black" }} />
           </IconButton>
+
         </Box>
         {param === "inbox" ?
           <Tabs
@@ -126,7 +128,7 @@ export default function Emails() {
         {value === "one" ?
           status === "success" && data?.length === 0 ?
             <Box sx={{ fontSize: { xs: "13px" }, marginTop: "30px", height: "100vh", textAlign: "center" }}>
-              <img src={emptyimg} style={{height:"200px", margin:"0 auto"}} alt="" />
+              <img src={emptyimg} style={{ height: "200px", margin: "0 auto" }} alt="" />
               No Emails Found on {param} tab...<br />
               {param === "inbox" ? <p>Send an Email to "shahzuwork@gmail.com" to display emails here...</p> : param === "starred" ? <p>Star mark an Email to display it here..</p> : param === "sent" ? <p>Send an Email to Display them here</p> : param === "draft" ? <p>Close an Email you're about to compose to save it in drafts...</p> : param === "bin" ? <p>Delete any Email to display it here...</p> : null}
             </Box>
@@ -138,6 +140,9 @@ export default function Emails() {
               ))}
             </List> : null}
         <Snackbar sx={{ width: "40vw", ".css-1eqdgzv-MuiPaper-root-MuiSnackbarContent-root": { fontSize: "10px" } }} open={ErrorbarStatus} autoHideDuration={3000} onClose={() => togglefunction("ErrorbarStatus")} message={error} />
+        <Fab onClick={() => togglefunction("ComposeStatus")} sx={{ position: "absolute", zIndex: "1", bottom: "40px", right: "30px" }} color="primary" aria-label="add">
+          <Add />
+        </Fab>
       </Box>
     </>
   )
