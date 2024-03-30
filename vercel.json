@@ -1,5 +1,3 @@
 {
-    "rewrites":  [
-      {"source": "/(.*)", "destination": "/landing"}
-    ]
+    "routes": [{ "src": "/[^.]+", "dest": "/landing", "status": 200 }]
   }
