@@ -30,7 +30,6 @@ export default function Landing() {
             <div style={{height:"120px", width:"120px"}} >
             <img src={RunningGif} style={{marginTop:"10px" ,height: "auto", width: "auto" }} />
             </div>
-            <b>Please report if server crashes.</b>
         </div>
         </div>
     )
