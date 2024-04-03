@@ -9,7 +9,10 @@ const Deletes = async (selectedarray,param) => {
     const res2 = await axios({
       method: API_URLS.movetobin.method,
       url: `https://backend-gmail-finalss.vercel.app/${API_URLS.movetobin.endpoint}/${param}`,
-      data: selectedarray
+      data: selectedarray,
+      headers: {
+        Authorization: `Bearer ${User.token}`
+      }
     });
     setStringValue(res2.data)
     togglefunction("ErrorbarStatus")

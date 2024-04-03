@@ -10,7 +10,7 @@ export default function Redirect() {
     <>
       <img src={img} style={{ height: "200px", margin: "0 auto" }} alt="" />
       <div style={{ margin: "0 auto", width: "fit-content", display: "block" }}>
-        No user found, dplease redirect to <span style={{ color: "blue", fontWeight: 600 }}><Link to="/registration/signup">Sign up</Link></span>
+        No user found, please redirect to <span style={{ color: "blue", fontWeight: 600 }}><Link to="/registration/signup">Sign up</Link></span>
       </div>
     </>
   )

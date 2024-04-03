@@ -49,7 +49,7 @@ export default function ComposeMail() {
     const DraftAPI = async () => {
         const res = await axios({
             method: API_URLS.saveDraftEmail.method,
-            url: `http://localhost:8000/${API_URLS.saveDraftEmail.endpoint}`,
+            url: `https://backend-gmail-finalss.vercel.app/${API_URLS.saveDraftEmail.endpoint}`,
             headers: {
                 Authorization: `Bearer ${User.token}`
             },
@@ -63,14 +63,13 @@ export default function ComposeMail() {
     }
 
     const SendAPI = async () => {
-        if (input === "shahzuwork@gmail.com") {
+        if (input === User.email) {
             payload.inbox = true
-            console.log("triggere")
         }
         try {
             const res = await axios({
                 method: API_URLS.saveSentEmail.method,
-                url: `http://localhost:8000/${API_URLS.saveSentEmail.endpoint}`,
+                url: `https://backend-gmail-finalss.vercel.app/${API_URLS.saveSentEmail.endpoint}`,
                 headers: {
                     Authorization: `Bearer ${User.token}`
                 },
@@ -87,13 +86,14 @@ export default function ComposeMail() {
             setStringValue(error)
         }
     }
-    console.log(input, 'not it')
 
     const Draftmutation = useMutation({
         mutationFn: () => DraftAPI()
         ,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["mainquery"] })
+            queryClient.invalidateQueries({ queryKey: ["searchquery"] })
+
         }
     })
     const Sendmutation = useMutation({
@@ -101,6 +101,8 @@ export default function ComposeMail() {
         ,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["mainquery"] })
+            queryClient.invalidateQueries({ queryKey: ["searchquery"] })
+
         }
     })
 

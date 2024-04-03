@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import NightsStayTwoToneIcon from '@mui/icons-material/NightsStayTwoTone';
 import LightModeTwoToneIcon from '@mui/icons-material/LightModeTwoTone';
 import * as React from 'react';
@@ -18,16 +19,33 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import { AccountCircle, OneK } from '@mui/icons-material';
+import { AccountCircle } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-
+import { useQuery } from '@tanstack/react-query';
+import fetchDataAPI from '../APIs/DataCallAPI';
+import Searchlist from './Searchlist';
+import { List } from '@mui/material';
 
 export default function PrimarySearchAppBar() {
-    const { togglefunction, SideMenuStatus, themestatus, User } = useStore();
-    const appnav=useNavigate()
+    const [Search, setSearch] = useState("")
+    const [isFocused, setIsFocused] = useState(false);
+    const { togglefunction, themestatus, User } = useStore();
+    const { data } = useQuery({
+        queryKey: ["searchquery", "all mail", User], queryFn: async () => {
+            return await fetchDataAPI("all mail", User);
+        }
+    })
+    const handlechange = (value) => {
+        setSearch(value)
+    }
+    const reasd = data?.filter((email) => {
+        return (email.to.toLowerCase().includes(Search) || email.body.toLowerCase().includes(Search) || email.subject.toLowerCase().includes(Search))
+    })
+
+
+    const appnav = useNavigate()
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
     function stringToColor(string) {
@@ -47,7 +65,6 @@ export default function PrimarySearchAppBar() {
 
         return color;
     }
-    console.log(User.name)
     function stringAvatar(name) {
 
         let result;
@@ -66,10 +83,16 @@ export default function PrimarySearchAppBar() {
         };
     }
 
-const ok=()=>{
-    localStorage.setItem('USERDATA', JSON.stringify({name:""}));
-    useStore.setState({ User:{name:""} })
-}
+    const handleBlur = () => {
+        setTimeout(() => {
+            // setSearchResults([]);
+            setIsFocused(false);
+          }, 300)
+      };
+    const ok = () => {
+        localStorage.setItem('USERDATA', JSON.stringify({ name: "" }));
+        useStore.setState({ User: { name: "" } })
+    }
 
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -105,8 +128,8 @@ const ok=()=>{
             onClose={handleMenuClose}
         >
             <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            {User.name===""?<MenuItem sx={{ color: "red" }} onClick={()=>{appnav("/registraion/signup")}}>Sign In</MenuItem>:
-            <MenuItem sx={{ color: "red" }} onClick={()=>{handleMenuClose();ok()}}>Log Out</MenuItem>}
+            {User.name === "" ? <MenuItem sx={{ color: "red" }} onClick={() => { appnav("/registraion/signup") }}>Sign In</MenuItem> :
+                <MenuItem sx={{ color: "red" }} onClick={() => { handleMenuClose(); ok() }}>Log Out</MenuItem>}
         </Menu>
     );
 
@@ -157,24 +180,24 @@ const ok=()=>{
                 </IconButton>
                 <p>Switch Themes</p>
             </MenuItem>
-            {User.name===""?<MenuItem sx={{color:"red"}} onClick={()=>appnav("/registraion/signup")}><IconButton
-                    size="large"
-                    color="default"
+            {User.name === "" ? <MenuItem sx={{ color: "red" }} onClick={() => appnav("/registraion/signup")}><IconButton
+                size="large"
+                color="default"
+            >
+                <AccountCircle />
+            </IconButton>SIGN IN</MenuItem> :
+                <MenuItem onClick={handleProfileMenuOpen}>
+                    <IconButton
+                        size="medium"
+                        aria-label="account of current user"
+                        aria-controls="primary-search-account-menu"
+                        aria-haspopup="true"
+                        color="inherit"
                     >
-                    <AccountCircle/>
-                </IconButton>SIGN IN</MenuItem>:
-            <MenuItem onClick={handleProfileMenuOpen}>
-                <IconButton
-                    size="medium"
-                    aria-label="account of current user"
-                    aria-controls="primary-search-account-menu"
-                    aria-haspopup="true"
-                    color="inherit"
-                    >
-                    <Avatar  {...stringAvatar(User.name)} />
-                </IconButton>
-                <p>Profile</p>
-            </MenuItem>
+                        <Avatar  {...stringAvatar(User.name)} />
+                    </IconButton>
+                    <p>Profile</p>
+                </MenuItem>
             }
         </Menu>
     );
@@ -199,11 +222,20 @@ const ok=()=>{
                     </Box>
 
                     <Box sx={{ flexGrow: 1 }} />
-
-                    <Box sx={{ marginTop: "10px", background: "#EAF1FB", width: "100%", maxWidth: "740px", paddingX: "5px", borderRadius: "25px", display: "flex", alignItems: "center", height: "48px", "&>div": { width: "90%" } }}>
+                    {/* "#EAF1FB" */}
+                    <Box sx={{ position: "relative", marginTop: "10px", background: "#EAF1FB", width: "100%", maxWidth: "740px", paddingX: "5px", borderRadius: isFocused ? '25px 25px 0 0' : '25px', display: "flex", alignItems: "center", height: "48px", "&>div": { width: "90%" } }}>
                         <SearchIcon sx={{ color: "black" }} />
-                        <InputBase sx={{ marginLeft: "10px", color: "black" }} placeholder='Search email' />
+                        <InputBase value={Search} onFocus={() => setIsFocused(true)}
+                            onBlur={handleBlur} onChange={(e) => handlechange(e.target.value)} sx={{ marginLeft: "10px", color: "black" }} placeholder='Search email' />
                         <TuneIcon sx={{ color: "black" }} />
+                        {isFocused&& <List sx={{ top: "44px", left: "0px", paddingTop: "0px", paddingX: "0px", position: "absolute", zIndex: 1, width: "100%", height: "180px", overflowY: "auto" }}>
+
+
+                            {reasd?.map((email) => (
+                                <Searchlist key={email._id} email={email} />
+                            ))}
+
+                        </List>}
                     </Box>
                     <Box sx={{ flexGrow: 1 }} />
 
@@ -230,28 +262,28 @@ const ok=()=>{
                                 {themestatus ? <NightsStayTwoToneIcon /> : <LightModeTwoToneIcon color='black' />}
                             </Badge>
                         </IconButton>
-                        {User.name===""?<IconButton
-                        size="large"
-                        edge="end"
-                        aria-label="account of current user"
-                        aria-controls={menuId}
-                        aria-haspopup="true"
-                        onClick={handleProfileMenuOpen}
-                        color="inherit"
+                        {User.name === "" ? <IconButton
+                            size="large"
+                            edge="end"
+                            aria-label="account of current user"
+                            aria-controls={menuId}
+                            aria-haspopup="true"
+                            onClick={handleProfileMenuOpen}
+                            color="inherit"
                         >
                             <Avatar />
-                        </IconButton>:
-                        <IconButton
-                        size="large"
-                        edge="end"
-                        aria-label="account of current user"
-                        aria-controls={menuId}
-                        aria-haspopup="true"
-                        onClick={handleProfileMenuOpen}
-                        color="inherit"
-                        >
-                            <Avatar {...stringAvatar(User.name)} />
-                        </IconButton>
+                        </IconButton> :
+                            <IconButton
+                                size="large"
+                                edge="end"
+                                aria-label="account of current user"
+                                aria-controls={menuId}
+                                aria-haspopup="true"
+                                onClick={handleProfileMenuOpen}
+                                color="inherit"
+                            >
+                                <Avatar {...stringAvatar(User.name)} />
+                            </IconButton>
                         }
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' } }}>

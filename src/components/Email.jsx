@@ -27,6 +27,9 @@ export default function Email({ email }) {
         await axios({
             method: API_URLS.togglestar.method,
             url: `https://backend-gmail-finalss.vercel.app/${API_URLS.togglestar.endpoint}`,
+            headers: {
+                Authorization: `Bearer ${User.token}`
+            },
             data: [email._id]
         });
 
@@ -37,13 +40,14 @@ export default function Email({ email }) {
         ,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["mainquery"] })
+            queryClient.invalidateQueries({ queryKey: ["searchquery"] })
+
         }
     })
 
     const StarChangeHandler = async () => {
         StarRef.star = !StarRef.star
         toggleStarMutation.mutate();
-        console.log('Star toggled successfully');
     }
 
 
@@ -51,7 +55,7 @@ export default function Email({ email }) {
         <>
             <div
                 className='box'
-                style={selectedarray.includes(email._id) ? themestatus ? { backgroundColor: "#383838", height: "auto", display: "flex", flexDirection: "row", flexWrap: "wrap", alignItems: " center", border: "1px solid #d6d6d6", cursor: "pointer", borderRadius: "4px", borderCollapse: "separate" } : { backgroundColor: "#1565c0", height: "auto", display: "flex", flexDirection: "row", flexWrap: "wrap", alignItems: " center", border: "1px solid #d6d6d6", cursor: "pointer", borderRadius: "4px", borderCollapse: "separate" } : { height: "auto", display: "flex", flexDirection: "row", flexWrap: "wrap", alignItems: " center", border: "1px solid #d6d6d6", cursor: "pointer", borderRadius: "4px", borderCollapse: "separate" }}>
+                style={selectedarray.includes(email._id) ? themestatus ? { backgroundColor: "#383838", height: "auto", display: "flex", flexDirection: "row", flexWrap: "wrap", alignItems: " center", border: "1px solid #d6d6d6", cursor: "pointer", borderRadius: "4px", borderCollapse: "separate" } : { backgroundColor: "#3676bf", height: "auto", display: "flex", flexDirection: "row", flexWrap: "wrap", alignItems: " center", border: "1px solid #d6d6d6", cursor: "pointer", borderRadius: "4px", borderCollapse: "separate" } : { height: "auto" ,display: "flex", flexDirection: "row", flexWrap: "wrap", alignItems: " center", border: "1px solid #d6d6d6", cursor: "pointer", borderRadius: "4px", borderCollapse: "separate" }}>
                 <Avatar
                     size="sm"
                     className="mt-2 lg:mt-2 lg:mb-2 ml-2"
@@ -69,7 +73,7 @@ export default function Email({ email }) {
 
                     <Box onClick={onclick}
                         sx={{ width: { md: "200px", lg: "300px" }, fontSize: { xs: "11px", lg: "14px" }, fontWeight: 500 }}>
-                        <span style={{fontWeight:400, marginLeft:"5px"}}>From:</span> {email.name}
+                        <span style={{ fontWeight: 400, marginLeft: "5px" }}>From:</span> {email.name}
                     </Box>
 
                 </Box>

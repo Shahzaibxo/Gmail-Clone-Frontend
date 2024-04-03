@@ -40,129 +40,130 @@ export default function ComposeDraft({ email }) {
             url: `http://localhost:8000/${API_URLS.updatedraft.endpoint}`,
             data: { id: email._id, input: input, sub: subject, body: textfield },
             headers: {
-            Authorization: `Bearer ${User.token}`
-        }
+                Authorization: `Bearer ${User.token}`
+            }
         })
         setStringValue(res.data)
-    togglefunction("ErrorbarStatus")
-}
-
-const SendAPI = async () => {
-    const res = await axios({
-        method: API_URLS.sentfromdraft.method,
-        url: `http://localhost:8000/${API_URLS.sentfromdraft.endpoint}`,
-        data: { payload: payload, id: email._id },
-        headers: {
-        Authorization: `Bearer ${User.token}`
-    }
-    });
-    setStringValue(res.data)
-    togglefunction("ErrorbarStatus")
-
-}
-
-const Draftmutation2 = useMutation({
-    mutationFn: () => DraftAPI()
-    ,
-    onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["mainquery"] })
-        console.log("mutation done");
-        togglefunction('ComposeStatus2');
-    }
-})
-
-const drafthandler = async (e) => {
-    e.preventDefault();
-    if (input === "" && subject === "" && textfield === "") {
         togglefunction("ErrorbarStatus")
-        setStringValue("Email discarded")
-        togglefunction("ComposeStatus2")
     }
-    else {
-        Draftmutation2.mutate();
-        navigatetodraft(`/emails/draft`)
-    }
-}
 
-const Sendfromdraftmutation = useMutation({
-    mutationFn: () => SendAPI()
-    ,
-    onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["mainquery"] })
-        togglefunction("ComposeStatus2")
-    }
-})
+    const SendAPI = async () => {
+        const res = await axios({
+            method: API_URLS.sentfromdraft.method,
+            url: `http://localhost:8000/${API_URLS.sentfromdraft.endpoint}`,
+            data: { payload: payload, id: email._id },
+            headers: {
+                Authorization: `Bearer ${User.token}`
+            }
+        });
+        setStringValue(res.data)
+        togglefunction("ErrorbarStatus")
 
-const Sendemail = async (e) => {
-    const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
-    e.preventDefault();
-    setStringValue("")
-    if (payload.subject === "") {
-        setsubject("No Subject")
     }
-    if (emailRegex.test(payload.to)) {
-        if (payload.to === "samiiwork1@gmail.com") {
-            payload.inbox = true
+
+    const Draftmutation2 = useMutation({
+        mutationFn: () => DraftAPI()
+        ,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["mainquery"] })
+            queryClient.invalidateQueries({ queryKey: ["searchquery"] })
+            togglefunction('ComposeStatus2');
         }
-        Sendfromdraftmutation.mutate()
-        navigatetodraft(`/emails/draft`)
+    })
 
+    const drafthandler = async (e) => {
+        e.preventDefault();
+        if (input === "" && subject === "" && textfield === "") {
+            togglefunction("ErrorbarStatus")
+            setStringValue("Email discarded")
+            togglefunction("ComposeStatus2")
+        }
+        else {
+            Draftmutation2.mutate();
+            navigatetodraft(`/emails/draft`)
+        }
     }
-    else {
-        setStringValue("Write a correct email address")
-        togglefunction("ErrorbarStatus")
-    }
-}
 
-return (
-    <>
-        <Dialog
-            PaperProps={{ sx: { height: "80%", width: "80%", maxWidth: "100%", maxHeight: "100%", boxShadow: "none", overflow: "hidden", borderRadius: "10px 10px 0 0" } }}
-            open={ComposeStatus2}>
-            <Box
-                sx={{ display: "flex", justifyContent: "space-between", padding: "10px 15px", "&>p": { fontWeight: 500, fontSize: 14 } }}>
-                <Typography>
-                    New Message
-                </Typography>
-                <Close
-                    onClick={(e) => drafthandler(e)}
-                    fontSize='small' />
-            </Box>
-            <Box
-                sx={{ display: "flex", flexDirection: "column", padding: "0 10px 0 10px" }}>
-                <InputBase
-                    value={input}
-                    onChange={(e) => setinput(e.target.value)}
-                    name="to"
-                    sx={{ '@media(max-width:400px)': { fontSize: '12px' }, margin: "10px 0 10px 0", borderBottom: "2px solid #dcdede" }} placeholder='Recipients' />
-                <InputBase value={subject} onChange={(e) => setsubject(e.target.value)} name="subject" sx={{ '@media(max-width:400px)': { fontSize: '12px' }, borderBottom: "1px solid #dcdede" }}
-                    placeholder='Subject' />
-            </Box>
-            <TextField
-                value={textfield}
-                onChange={(e) => settextfield(e.target.value)}
-                name="body"
-                multiline
-                rows={12}
-                sx={{ "& .css-1a2xmvf-MuiInputBase-root-MuiOutlinedInput-root": { fontSize: "0.8rem" }, "& .MuiOutlinedInput-notchedOutline": { border: 'none' } }} />
-            <Box
-                sx={{ position: 'absolute', width: "99%", bottom: 5, left: 4, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <Button
-                    sx={{ '@media(max-width:400px)': { transform: "scale(0.9)" }, transform: "scale(0.8)" }}
-                    variant="contained"
-                    onClick={(e) => { Sendemail(e) }}
-                    endIcon={<Send />}>
-                    Send
-                </Button>
-                <Button
-                    sx={{ transform: "scale(0.9)" }}
-                    onClick={() => { togglefunction('ComposeStatus2') }}
-                    variant="outlined"
-                    startIcon={<Delete />}>
-                    Delete
-                </Button>
-            </Box>
-        </Dialog >
-    </>
-)
+    const Sendfromdraftmutation = useMutation({
+        mutationFn: () => SendAPI()
+        ,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["mainquery"] })
+            queryClient.invalidateQueries({ queryKey: ["searchquery"] })
+            togglefunction("ComposeStatus2")
+        }
+    })
+
+    const Sendemail = async (e) => {
+        const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+        e.preventDefault();
+        setStringValue("")
+        if (payload.subject === "") {
+            setsubject("No Subject")
+        }
+        if (emailRegex.test(payload.to)) {
+            if (payload.to === "samiiwork1@gmail.com") {
+                payload.inbox = true
+            }
+            Sendfromdraftmutation.mutate()
+            navigatetodraft(`/emails/draft`)
+
+        }
+        else {
+            setStringValue("Write a correct email address")
+            togglefunction("ErrorbarStatus")
+        }
+    }
+
+    return (
+        <>
+            <Dialog
+                PaperProps={{ sx: { height: "80%", width: "80%", maxWidth: "100%", maxHeight: "100%", boxShadow: "none", overflow: "hidden", borderRadius: "10px 10px 0 0" } }}
+                open={ComposeStatus2}>
+                <Box
+                    sx={{ display: "flex", justifyContent: "space-between", padding: "10px 15px", "&>p": { fontWeight: 500, fontSize: 14 } }}>
+                    <Typography>
+                        New Message
+                    </Typography>
+                    <Close
+                        onClick={(e) => drafthandler(e)}
+                        fontSize='small' />
+                </Box>
+                <Box
+                    sx={{ display: "flex", flexDirection: "column", padding: "0 10px 0 10px" }}>
+                    <InputBase
+                        value={input}
+                        onChange={(e) => setinput(e.target.value)}
+                        name="to"
+                        sx={{ '@media(max-width:400px)': { fontSize: '12px' }, margin: "10px 0 10px 0", borderBottom: "2px solid #dcdede" }} placeholder='Recipients' />
+                    <InputBase value={subject} onChange={(e) => setsubject(e.target.value)} name="subject" sx={{ '@media(max-width:400px)': { fontSize: '12px' }, borderBottom: "1px solid #dcdede" }}
+                        placeholder='Subject' />
+                </Box>
+                <TextField
+                    value={textfield}
+                    onChange={(e) => settextfield(e.target.value)}
+                    name="body"
+                    multiline
+                    rows={12}
+                    sx={{ "& .css-1a2xmvf-MuiInputBase-root-MuiOutlinedInput-root": { fontSize: "0.8rem" }, "& .MuiOutlinedInput-notchedOutline": { border: 'none' } }} />
+                <Box
+                    sx={{ position: 'absolute', width: "99%", bottom: 5, left: 4, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <Button
+                        sx={{ '@media(max-width:400px)': { transform: "scale(0.9)" }, transform: "scale(0.8)" }}
+                        variant="contained"
+                        onClick={(e) => { Sendemail(e) }}
+                        endIcon={<Send />}>
+                        Send
+                    </Button>
+                    <Button
+                        sx={{ transform: "scale(0.9)" }}
+                        onClick={() => { togglefunction('ComposeStatus2') }}
+                        variant="outlined"
+                        startIcon={<Delete />}>
+                        Delete
+                    </Button>
+                </Box>
+            </Dialog >
+        </>
+    )
 }

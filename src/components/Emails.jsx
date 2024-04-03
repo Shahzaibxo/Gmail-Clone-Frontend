@@ -44,12 +44,9 @@ export default function Emails() {
     setValue(newValue);
   };
 
-console.log("user data", User)
   const { data, status } = useQuery({
     queryKey: ["mainquery", param, User], queryFn: async () => {
-      const datas = await fetchDataAPI(param, User);
-      console.log("we got this data", datas)
-      return datas;
+      return await fetchDataAPI(param, User);
     }
   })
   const selectemailfunction = () => {
@@ -65,7 +62,7 @@ console.log("user data", User)
   const DeleteAPi = async () => {
     const res2 = await axios({
       method: API_URLS.movetobin.method,
-      url: `http://localhost:8000/{API_URLS.movetobin.endpoint}/${param}`,
+      url: `https://backend-gmail-finalss.vercel.app/{API_URLS.movetobin.endpoint}/${param}`,
       data: selectedarray,
       headers:{
         "Authorization":`Bearer ${User.token}`
@@ -73,7 +70,6 @@ console.log("user data", User)
     });
     setStringValue(res2.data)
     togglefunction("ErrorbarStatus")
-    console.log("api called")
   }
 
   const DeleteMutation = useMutation({
@@ -81,6 +77,7 @@ console.log("user data", User)
     ,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["mainquery"] })
+      queryClient.invalidateQueeries({ queryKey: ["searchquery"] })
     }
   })
 

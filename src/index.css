@@ -7,7 +7,7 @@
   font-family:Roboto;
 }
 ::-webkit-scrollbar{
-  width: 8px;
+  width: 3px;
 }
 ::-webkit-scrollbar-thumb{
   border-radius: 20px;

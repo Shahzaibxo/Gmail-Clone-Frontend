@@ -16,24 +16,27 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 export default function ViewEmail() {
   const { state } = useLocation();
   const queryClient = useQueryClient()
-  const {param}= useParams();
+  const { param } = useParams();
   const navigate = useNavigate();
-  const navigateback=useNavigate()
+  const navigateback = useNavigate()
 
-  const { togglefunction,setStringValue } = useStore()
-  
+  const { togglefunction, setStringValue } = useStore()
+
   const DeleteAPi = async () => {
     const res2 = await axios({
       method: API_URLS.movetobin.method,
       url: `https://backend-gmail-finalss.vercel.app/${API_URLS.movetobin.endpoint}/${param}`,
-      data: [state._id]
+      data: [state._id],
+      headers: {
+          Authorization: `Bearer ${User.token}`
+      }
     });
     setStringValue(res2.data)
     togglefunction("ErrorbarStatus")
-  
+
   }
 
-  
+
   const DeleteMutation2 = useMutation({
     mutationFn: () => DeleteAPi()
     ,
@@ -42,7 +45,7 @@ export default function ViewEmail() {
     }
   })
 
-  const deletehandler=()=>{
+  const deletehandler = () => {
     DeleteMutation2.mutate();
     navigateback(`/emails/${param}`)
   }
@@ -54,25 +57,24 @@ export default function ViewEmail() {
   return (
     <>
       <Box
-        sx={{ width: "97%", display: "flex",height:"100vh" ,flexDirection: "column" }}>
+        sx={{ width: "97%", display: "flex", height: "100vh", flexDirection: "column" }}>
         <Box
-          sx={{ marginBottom: "20px", marginTop: "10px" }}>
+          sx={{ marginBottom: "20px", marginTop: "10px", marginLeft: "10px" }}>
           <IconButton
             onClick={() => { window.history.back() }}>
             <ArrowBack
               fontSize='small'
               sx={{ color: "black" }} />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={() => { deletehandler() }}>
             <DeleteOutline
               fontSize='small'
-              sx={{ color: "black" }} 
-              onClick={()=>{deletehandler()}}
-              />
+              sx={{ color: "black" }}
+            />
           </IconButton>
         </Box>
         <Box
-          sx={{ wordBreak: "break-word", height: "auto", fontSize: { lg: "24px", xs: "18px" }, display: "flex", flexDirection: "row", alignItems: "center", marginLeft: { lg: "60px", md: "35px", xs: "15px" } }}>
+          sx={{ wordBreak: "break-word", height: "auto", fontSize: { lg: "24px", xs: "18px" }, display: "flex", flexDirection: "row", alignItems: "center", marginLeft: { lg: "60px", md: "45px", xs: "25px" } }}>
           <div
             style={{ marginRieght: "5px" }}>
 
@@ -84,7 +86,7 @@ export default function ViewEmail() {
             size='sm'
             radius="sm"
             className='ml-2'
-            onClose={() => { }} >
+          >
             {state?.type}
           </Chip>
 
@@ -97,7 +99,7 @@ export default function ViewEmail() {
           </IconButton>
         </Box>
         <Box
-          sx={{ width: "100%", marginLeft: { lg: "30px", md: "15px", xs: "5px" }, marginTop: "20px", height: { xs: "8vh", lg: "10vh" }, display: "flex", flexDirection: "row" }}>
+          sx={{ width: "100%", marginLeft: { lg: "30px", md: "15px", xs: "15px" }, marginTop: "20px", height: { xs: "8vh", lg: "10vh" }, display: "flex", flexDirection: "row" }}>
           <Avatar
             sx={{ marginTop: "5px", width: 44, height: 44 }}
             src='https://images.unsplash.com/broken' />
@@ -106,7 +108,7 @@ export default function ViewEmail() {
             {state?.name}
           </Typography>
           <Typography
-            sx={{ fontSize: "11px", marginTop: "12px", marginLeft:"4px",fontWeight: 300 }}>
+            sx={{ fontSize: "11px", marginTop: "12px", marginLeft: "4px", fontWeight: 300 }}>
             to:&nbsp;&nbsp;&#60;{state?.to}&#62;
           </Typography>
         </Box>
@@ -120,20 +122,21 @@ export default function ViewEmail() {
         </Box>
         <Box
           sx={{ marginLeft: { lg: "30px", md: "15px", xs: "5px" } }}>
-          <hr style={{ height: "4cpx" }} />
+          <hr style={{ height: "2px", border: "none", backgroundColor: "black" }} />
           {state.type === "draft" ?
-          <IconButton>
+
 
             <Button
               className='w-18 h-8 text-blue mt-2'
               radius='full'
               variant='ghost'
-              startContent={<Edit />}
               onClick={() => { togglefunction("ComposeStatus2") }}
-              >
+              startContent={<Edit />}
+
+            >
               Edit
-            </Button> 
-              </IconButton>:
+            </Button>
+            :
             <Button
               className='w-18 h-8 text-blue mt-5'
               radius='full'
@@ -142,7 +145,7 @@ export default function ViewEmail() {
               Reply
             </Button>
           }
-        
+
         </Box>
         <ComposeDraft email={state} />
       </Box>

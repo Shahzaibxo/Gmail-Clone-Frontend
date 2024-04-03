@@ -14,20 +14,18 @@ export default function Login() {
     const [Email, setEmail] = useState(null)
     const [Password, setPassword] = useState(null)
     const { isLoading, login } = LoginHook()
-    const { ErrorbarStatus, error, falsemark, User } = useStore()
+    const { ErrorbarStatus, error, falsemark } = useStore()
 
     const [isVisible, setIsVisible] = React.useState(false);
 
     const toggleVisibility = () => setIsVisible(!isVisible);
 
-    const param = "inbox"
 
     const handleclick = async () => {
         await login(Email, Password)
         
 
     }
-    console.log("USER", User)
 
     return (
         <div style={{ width: "100vw", height: "100vh", background: "linear-gradient(to bottom, #add8e6, #ffffff)" }}>
