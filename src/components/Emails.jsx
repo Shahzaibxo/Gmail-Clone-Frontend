@@ -1,12 +1,12 @@
 import Fab from '@mui/material/Fab';
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import InboxRoundedIcon from '@mui/icons-material/InboxRounded';
-import { Box, IconButton, List, Snackbar } from '@mui/material';
+import { Box, IconButton, List } from '@mui/material';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import { useParams, useNavigate } from "react-router-dom"
 import emptyimg from "../assets/empty.jpeg"
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { DeleteOutline, Add } from '@mui/icons-material';
 import fetchDataAPI from "../APIs/DataCallAPI.js"
 import { Checkbox } from "@nextui-org/react";
@@ -25,7 +25,7 @@ export default function Emails() {
 
   const CheckboxRef = useRef(false)
 
-  const { togglefunction, ComposeStatus, selectedarray, clearSelectedArray, appendToStringArray, refreshscreenstate, ErrorbarStatus, error, setStringValue } = useStore()
+  const { togglefunction,User, selectedarray, clearSelectedArray, appendToStringArray, refreshscreenstate, setStringValue } = useStore()
 
   const navigate = useNavigate();
   const { param } = useParams();
@@ -44,15 +44,14 @@ export default function Emails() {
     setValue(newValue);
   };
 
-
+console.log("user data", User)
   const { data, status } = useQuery({
-    queryKey: ["mainquery", param], queryFn: async () => {
-      const datas = await fetchDataAPI(param);
-      console.log("new data fetching...")
+    queryKey: ["mainquery", param, User], queryFn: async () => {
+      const datas = await fetchDataAPI(param, User);
+      console.log("we got this data", datas)
       return datas;
     }
   })
-
   const selectemailfunction = () => {
     CheckboxRef.current = !CheckboxRef.current
     if (CheckboxRef.current === true) {
@@ -66,8 +65,11 @@ export default function Emails() {
   const DeleteAPi = async () => {
     const res2 = await axios({
       method: API_URLS.movetobin.method,
-      url: `https://backend-gmail-finalss.vercel.app/${API_URLS.movetobin.endpoint}/${param}`,
-      data: selectedarray
+      url: `http://localhost:8000/{API_URLS.movetobin.endpoint}/${param}`,
+      data: selectedarray,
+      headers:{
+        "Authorization":`Bearer ${User.token}`
+      }
     });
     setStringValue(res2.data)
     togglefunction("ErrorbarStatus")
@@ -130,7 +132,7 @@ export default function Emails() {
             <Box sx={{ fontSize: { xs: "13px" }, marginTop: "30px", height: "100vh", textAlign: "center" }}>
               <img src={emptyimg} style={{ height: "200px", margin: "0 auto" }} alt="" />
               No Emails Found on {param} tab...<br />
-              {param === "inbox" ? <p>Send an Email to "shahzuwork@gmail.com" to display emails here...</p> : param === "starred" ? <p>Star mark an Email to display it here..</p> : param === "sent" ? <p>Send an Email to Display them here</p> : param === "draft" ? <p>Close an Email you're about to compose to save it in drafts...</p> : param === "bin" ? <p>Delete any Email to display it here...</p> : null}
+              {param === "inbox"? <p>Send an Email to {User.email} to display emails here...</p> : param === "starred" ? <p>Star mark an Email to display it here..</p> : param === "sent" ? <p>Send an Email to Display them here</p> : param === "draft" ? <p>Close an Email you're about to compose to save it in drafts...</p> : param === "bin" ? <p>Delete any Email to display it here...</p> : null}
             </Box>
 
             :
@@ -139,7 +141,6 @@ export default function Emails() {
                 <Email key={email._id} email={email} />
               ))}
             </List> : null}
-        <Snackbar sx={{ width: "40vw", ".css-1eqdgzv-MuiPaper-root-MuiSnackbarContent-root": { fontSize: "10px" } }} open={ErrorbarStatus} autoHideDuration={3000} onClose={() => togglefunction("ErrorbarStatus")} message={error} />
         <Fab onClick={() => togglefunction("ComposeStatus")} sx={{ position: "absolute", zIndex: "1", bottom: "40px", right: "30px" }} color="primary" aria-label="add">
           <Add />
         </Fab>

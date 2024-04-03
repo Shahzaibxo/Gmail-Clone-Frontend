@@ -106,8 +106,8 @@ export default function ViewEmail() {
             {state?.name}
           </Typography>
           <Typography
-            sx={{ fontSize: "11px", marginTop: "12px", fontWeight: 300 }}>
-            &nbsp;&nbsp;&#60;{state?.to}&#62;
+            sx={{ fontSize: "11px", marginTop: "12px", marginLeft:"4px",fontWeight: 300 }}>
+            to:&nbsp;&nbsp;&#60;{state?.to}&#62;
           </Typography>
         </Box>
 
@@ -122,15 +122,18 @@ export default function ViewEmail() {
           sx={{ marginLeft: { lg: "30px", md: "15px", xs: "5px" } }}>
           <hr style={{ height: "4cpx" }} />
           {state.type === "draft" ?
+          <IconButton>
+
             <Button
               className='w-18 h-8 text-blue mt-2'
               radius='full'
               variant='ghost'
               startContent={<Edit />}
               onClick={() => { togglefunction("ComposeStatus2") }}
-            >
+              >
               Edit
-            </Button> :
+            </Button> 
+              </IconButton>:
             <Button
               className='w-18 h-8 text-blue mt-5'
               radius='full'

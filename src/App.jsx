@@ -2,8 +2,8 @@ import { createBrowserRouter, createRoutesFromElements, Navigate, Route, RouterP
 import RouteLayout from "./routes/RouteLayout"
 import Emails from "./components/Emails.jsx"
 import ViewEmail from "./components/ViewEmail"
-import Landing from "./components/Landing.jsx"
-
+import Signup from "./components/Landing.jsx"
+import Login from "./components/Login.jsx"
 
 function App() {
   
@@ -12,7 +12,10 @@ function App() {
       <>
         {/* Root Route */}
 
-        <Route path="/landing" element={<Landing/>} />
+        <Route path="/registration">
+        <Route path="/registration/signup" element={<Signup/>} />
+        <Route path="/registration/login" element={<Login/>} />
+        </Route>
 
 
         {/* Inbox Route */}
@@ -24,7 +27,7 @@ function App() {
         </Route>
 
         {/* Invalid reroute */}
-        <Route path="*" element={<Navigate to="/landing" />} />
+        <Route path="*" element={<Navigate to="/registration/signup" />} />
       </>
     )
   )

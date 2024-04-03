@@ -10,6 +10,7 @@ const useStore = create((set) => ({
     refreshscreenstate: true,
     error: "",
     selectedarray: [],
+    User: JSON.parse(localStorage.getItem('USERDATA')),
     clearSelectedArray: () => set({ selectedarray: [] }),
     removeFromStringArray: (stringToRemove) => set((state) => ({
         selectedarray: state.selectedarray?.filter(item => item !== stringToRemove) // Remove the string if it is present

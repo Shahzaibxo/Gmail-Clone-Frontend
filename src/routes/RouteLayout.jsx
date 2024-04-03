@@ -1,4 +1,3 @@
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query"
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ComposeEmail from "../components/ComposeMail"
 import { grey, blue } from '@mui/material/colors'
@@ -8,7 +7,7 @@ import Header2 from "../components/Header2"
 import useStore from '../components/store'
 import { Outlet } from 'react-router-dom'
 import React from 'react'
-
+import Redirect from '../components/Redirect';
 const getDesignTokens = (mode) => ({
   palette: {
     mode,
@@ -40,10 +39,9 @@ const getDesignTokens = (mode) => ({
 
 
 
-const queryClient = new QueryClient()
 
 export default function RouteLayout() {
-  const { falsemark, themestatus, truemark } = useStore()
+  const { falsemark, themestatus, User } = useStore()
   const darkModeTheme = themestatus ? createTheme(getDesignTokens('dark')) : createTheme(getDesignTokens('light'));
 
 
@@ -51,22 +49,21 @@ export default function RouteLayout() {
   return (
     <>
       {/* React Query provider */}
-      <QueryClientProvider client={queryClient}>
-        {/* MUI theme provider */}
-        <ThemeProvider theme={darkModeTheme}>
-          <CssBaseline />
-          {/* Main app */}
+      {/* MUI theme provider */}
+      <ThemeProvider theme={darkModeTheme}>
+        <CssBaseline />
+        {/* Main app */}
 
-          <Header2 />
+        <Header2 />
 
-          <Sidebar />
-          <Outlet />
+        <Sidebar />
+        {User.name===""?
+           <Redirect />:<Outlet />
+        }
 
-          <ComposeEmail />
+        <ComposeEmail />
+      </ThemeProvider>
 
-        </ThemeProvider>
-
-      </QueryClientProvider>
     </>
   )
 }

@@ -11,10 +11,10 @@ import { NavLink, useParams } from 'react-router-dom'
 
 export default function SidebarContent() {
   const { param } = useParams()
-  const { togglefunction , themestatus} = useStore();    
+  const { togglefunction , themestatus, User} = useStore();    
   return (
     <div style={{padding:16}}>
-      <Button onClick={()=>togglefunction('ComposeStatus')} sx={{backgroundColor:"none",background:"#c2e7ff",color:"#001d35", padding:"16px", borderRadius:"16px", minWidth:"100px", textTransform:"none"}}><CreateOutlinedIcon/>Compose</Button>
+      {User.name===""?null:<Button onClick={()=>togglefunction('ComposeStatus')} sx={{backgroundColor:"none",background:"#c2e7ff",color:"#001d35", padding:"16px", borderRadius:"16px", minWidth:"100px", textTransform:"none"}}><CreateOutlinedIcon/>Compose</Button>}
       <List >
         {
           Sidebad_elements.map(element=>(

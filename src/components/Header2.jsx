@@ -18,16 +18,58 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import { AccountCircle, OneK } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function PrimarySearchAppBar() {
-    const { togglefunction, SideMenuStatus, themestatus } = useStore();
-
+    const { togglefunction, SideMenuStatus, themestatus, User } = useStore();
+    const appnav=useNavigate()
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+    function stringToColor(string) {
+        let hash = 0;
+        let i;
+
+        for (i = 0; i < string.length; i += 1) {
+            hash = string.charCodeAt(i) + ((hash << 5) - hash);
+        }
+
+        let color = '#';
+
+        for (i = 0; i < 3; i += 1) {
+            const value = (hash >> (i * 8)) & 0xff;
+            color += `00${value.toString(16)}`.slice(-2);
+        }
+
+        return color;
+    }
+    console.log(User.name)
+    function stringAvatar(name) {
+
+        let result;
+        const nameParts = name.split(' ');
+
+        if (nameParts.length === 1) {
+            result = nameParts[0][0];
+        } else {
+            result = `${nameParts[0][0]}${nameParts[1][0]}`;
+        }
+        return {
+            sx: {
+                bgcolor: stringToColor(name), height: "1.5em", width: "1.5em"
+            },
+            children: `${result}`,
+        };
+    }
+
+const ok=()=>{
+    localStorage.setItem('USERDATA', JSON.stringify({name:""}));
+    useStore.setState({ User:{name:""} })
+}
 
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -39,7 +81,6 @@ export default function PrimarySearchAppBar() {
 
     const handleMenuClose = () => {
         setAnchorEl(null);
-        handleMobileMenuClose();
     };
 
     const handleMobileMenuOpen = (event) => {
@@ -64,7 +105,8 @@ export default function PrimarySearchAppBar() {
             onClose={handleMenuClose}
         >
             <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem sx={{ color: "red" }} onClick={handleMenuClose}>Log Out</MenuItem>
+            {User.name===""?<MenuItem sx={{ color: "red" }} onClick={()=>{appnav("/registraion/signup")}}>Sign In</MenuItem>:
+            <MenuItem sx={{ color: "red" }} onClick={()=>{handleMenuClose();ok()}}>Log Out</MenuItem>}
         </Menu>
     );
 
@@ -115,6 +157,12 @@ export default function PrimarySearchAppBar() {
                 </IconButton>
                 <p>Switch Themes</p>
             </MenuItem>
+            {User.name===""?<MenuItem sx={{color:"red"}} onClick={()=>appnav("/registraion/signup")}><IconButton
+                    size="large"
+                    color="default"
+                    >
+                    <AccountCircle/>
+                </IconButton>SIGN IN</MenuItem>:
             <MenuItem onClick={handleProfileMenuOpen}>
                 <IconButton
                     size="medium"
@@ -122,11 +170,12 @@ export default function PrimarySearchAppBar() {
                     aria-controls="primary-search-account-menu"
                     aria-haspopup="true"
                     color="inherit"
-                >
-                    <Avatar alt="Remy Sharp" sx={{ height: "1.5em", width: "1.5em" }} src="https://avatars.githubusercontent.com/u/145616378?s=400&u=4b2b22764aec2af4e0179f63b51508a56a40440a&v=4" />
+                    >
+                    <Avatar  {...stringAvatar(User.name)} />
                 </IconButton>
                 <p>Profile</p>
             </MenuItem>
+            }
         </Menu>
     );
 
@@ -151,9 +200,9 @@ export default function PrimarySearchAppBar() {
 
                     <Box sx={{ flexGrow: 1 }} />
 
-                    <Box sx={{marginTop:"10px" ,background: "#EAF1FB", width: "100%", maxWidth: "740px", paddingX: "5px", borderRadius: "25px", display: "flex", alignItems: "center", height: "48px", "&>div": { width: "90%" } }}>
+                    <Box sx={{ marginTop: "10px", background: "#EAF1FB", width: "100%", maxWidth: "740px", paddingX: "5px", borderRadius: "25px", display: "flex", alignItems: "center", height: "48px", "&>div": { width: "90%" } }}>
                         <SearchIcon sx={{ color: "black" }} />
-                        <InputBase sx={{marginLeft: "10px", color: "black" }} placeholder='Search email' />
+                        <InputBase sx={{ marginLeft: "10px", color: "black" }} placeholder='Search email' />
                         <TuneIcon sx={{ color: "black" }} />
                     </Box>
                     <Box sx={{ flexGrow: 1 }} />
@@ -181,17 +230,29 @@ export default function PrimarySearchAppBar() {
                                 {themestatus ? <NightsStayTwoToneIcon /> : <LightModeTwoToneIcon color='black' />}
                             </Badge>
                         </IconButton>
-
-                        <IconButton
-                            size="large"
-                            edge="end"
-                            aria-label="account of current user"
-                            aria-controls={menuId}
-                            aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
-                            color="inherit"
+                        {User.name===""?<IconButton
+                        size="large"
+                        edge="end"
+                        aria-label="account of current user"
+                        aria-controls={menuId}
+                        aria-haspopup="true"
+                        onClick={handleProfileMenuOpen}
+                        color="inherit"
                         >
-                            <Avatar alt="Remy Sharp" sx={{ height: "2em", width: "2em" }} src="https://avatars.githubusercontent.com/u/145616378?s=400&u=4b2b22764aec2af4e0179f63b51508a56a40440a&v=4" />                        </IconButton>
+                            <Avatar />
+                        </IconButton>:
+                        <IconButton
+                        size="large"
+                        edge="end"
+                        aria-label="account of current user"
+                        aria-controls={menuId}
+                        aria-haspopup="true"
+                        onClick={handleProfileMenuOpen}
+                        color="inherit"
+                        >
+                            <Avatar {...stringAvatar(User.name)} />
+                        </IconButton>
+                        }
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                         <IconButton

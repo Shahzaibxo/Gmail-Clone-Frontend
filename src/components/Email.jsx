@@ -51,8 +51,7 @@ export default function Email({ email }) {
         <>
             <div
                 className='box'
-                style={selectedarray.includes(email._id) ? themestatus ? { backgroundColor: "#383838", height: "auto", display: "flex", flexDirection: "row", flexWrap: "wrap", alignItems: " center", border: "1px solid #d6d6d6", cursor: "pointer", borderRadius: "4px", borderCollapse: "separate" } : { backgroundColor: "#8dbfd9", height: "auto", display: "flex", flexDirection: "row", flexWrap: "wrap", alignItems: " center", border: "1px solid #d6d6d6", cursor: "pointer", borderRadius: "4px", borderCollapse: "separate" } : { height: "auto", display: "flex", flexDirection: "row", flexWrap: "wrap", alignItems: " center", border: "1px solid #d6d6d6", cursor: "pointer", borderRadius: "4px", borderCollapse: "separate" }}>
-
+                style={selectedarray.includes(email._id) ? themestatus ? { backgroundColor: "#383838", height: "auto", display: "flex", flexDirection: "row", flexWrap: "wrap", alignItems: " center", border: "1px solid #d6d6d6", cursor: "pointer", borderRadius: "4px", borderCollapse: "separate" } : { backgroundColor: "#1565c0", height: "auto", display: "flex", flexDirection: "row", flexWrap: "wrap", alignItems: " center", border: "1px solid #d6d6d6", cursor: "pointer", borderRadius: "4px", borderCollapse: "separate" } : { height: "auto", display: "flex", flexDirection: "row", flexWrap: "wrap", alignItems: " center", border: "1px solid #d6d6d6", cursor: "pointer", borderRadius: "4px", borderCollapse: "separate" }}>
                 <Avatar
                     size="sm"
                     className="mt-2 lg:mt-2 lg:mb-2 ml-2"
@@ -69,8 +68,8 @@ export default function Email({ email }) {
                         checkedIcon={<StarRounded />} />
 
                     <Box onClick={onclick}
-                        sx={{ marginLeft: "5px", width: { md: "200px", lg: "300px" }, fontSize: { xs: "11px", lg: "14px" }, fontWeight: 500 }}>
-                        {param === "sent" ? `To: ${email.name}` : email.name}
+                        sx={{ width: { md: "200px", lg: "300px" }, fontSize: { xs: "11px", lg: "14px" }, fontWeight: 500 }}>
+                        <span style={{fontWeight:400, marginLeft:"5px"}}>From:</span> {email.name}
                     </Box>
 
                 </Box>

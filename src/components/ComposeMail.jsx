@@ -6,7 +6,6 @@ import { useState } from 'react';
 import useStore from './store';
 import axios from "axios";
 import React from 'react'
-import { useParams } from "react-router-dom";
 
 
 
@@ -17,17 +16,17 @@ export default function ComposeMail() {
     const [textfield, settextfield] = useState("");
 
 
-    const { setStringValue, ComposeStatus, togglefunction } = useStore();
-    
-    
+    const { setStringValue, ComposeStatus, togglefunction, User } = useStore();
+
+
     let payload = {
         to: input,
-        from: "samiiwork1@gmail.com",
+        from: User.email,
         subject: subject,
         body: textfield,
         date: new Date(),
         image: "",
-        name: "Shahzaib uddin",
+        name: User.name,
         starred: false,
         type: "sent",
         checked: false,
@@ -35,12 +34,12 @@ export default function ComposeMail() {
     }
     let Dpayload = {
         to: input,
-        from: "samiiwork1@gmail.com",
+        from: User.email,
         subject: subject,
         body: textfield,
         date: new Date(),
         image: "",
-        name: "Shahzaib uddin",
+        name: User.email,
         starred: false,
         type: "draft",
         checked: false,
@@ -50,8 +49,11 @@ export default function ComposeMail() {
     const DraftAPI = async () => {
         const res = await axios({
             method: API_URLS.saveDraftEmail.method,
-            url: `https://backend-gmail-finalss.vercel.app/${API_URLS.saveDraftEmail.endpoint}`,
-            data: Dpayload
+            url: `http://localhost:8000/${API_URLS.saveDraftEmail.endpoint}`,
+            headers: {
+                Authorization: `Bearer ${User.token}`
+            },
+            data: Dpayload,
         })
         setStringValue(res.data)
         togglefunction("ErrorbarStatus")
@@ -59,17 +61,19 @@ export default function ComposeMail() {
         settextfield("")
         setsubject("")
     }
-    
+
     const SendAPI = async () => {
         if (input === "shahzuwork@gmail.com") {
-            payload.inbox=true
+            payload.inbox = true
             console.log("triggere")
         }
         try {
-            console.log(input, "this is it")
             const res = await axios({
                 method: API_URLS.saveSentEmail.method,
-                url: `https://backend-gmail-finalss.vercel.app/${API_URLS.saveSentEmail.endpoint}`,
+                url: `http://localhost:8000/${API_URLS.saveSentEmail.endpoint}`,
+                headers: {
+                    Authorization: `Bearer ${User.token}`
+                },
                 data: payload
             });
             togglefunction('ComposeStatus');
@@ -83,8 +87,8 @@ export default function ComposeMail() {
             setStringValue(error)
         }
     }
-    console.log(input,'not it')
-    
+    console.log(input, 'not it')
+
     const Draftmutation = useMutation({
         mutationFn: () => DraftAPI()
         ,
@@ -120,8 +124,8 @@ export default function ComposeMail() {
             setsubject("No Subject")
         }
         if (emailRegex.test(payload.to)) {
-        const username = payload.to.split("@")[0];
-        payload.name= username
+            const username = payload.to.split("@")[0];
+            payload.name = username
             Sendmutation.mutate()
         }
         else {
@@ -156,7 +160,7 @@ export default function ComposeMail() {
                         placeholder='Subject' />
                 </Box>
                 <TextField
-                value={textfield}
+                    value={textfield}
                     onChange={(e) => settextfield(e.target.value)}
                     name="body"
                     multiline

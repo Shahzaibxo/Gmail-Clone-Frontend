@@ -1,33 +1,34 @@
-import HttpsIcon from '@mui/icons-material/Https';
-import PermIdentityIcon from '@mui/icons-material/PermIdentity';
-import MailOutlineIcon from '@mui/icons-material/MailOutline';
-import { EyeFilledIcon } from "../assets/eyessvgSlashed.jsx";
+import LoginHook from '../Middleware/LoginHook.jsx';
+import useStore from "./store.js";
+import { Link } from 'react-router-dom';
 import { EyeSlashFilledIcon } from "../assets/eyesvg.jsx";
+import { EyeFilledIcon } from "../assets/eyessvgSlashed.jsx";
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import HttpsIcon from '@mui/icons-material/Https';
 import { Snackbar } from "@mui/material";
 import { Button, Input } from '@nextui-org/react'
 import React from 'react'
-import { Link } from 'react-router-dom';
 import { useState } from "react";
-import useStore from "./store.js";
-import SignHook from "../Middleware/SignHook.jsx";
 
-export default function Signup() {
-    const [Email, setEmail] = useState("")
-    const [Password, setPassword] = useState("")
-    const [Name, setName] = useState("")
-    const { isLoading, signup } = SignHook()
-    const { ErrorbarStatus, error, falsemark } = useStore()
+export default function Login() {
+    const [Email, setEmail] = useState(null)
+    const [Password, setPassword] = useState(null)
+    const { isLoading, login } = LoginHook()
+    const { ErrorbarStatus, error, falsemark, User } = useStore()
+
     const [isVisible, setIsVisible] = React.useState(false);
 
     const toggleVisibility = () => setIsVisible(!isVisible);
 
     const param = "inbox"
-    
-    const handleclick = async () => {
-        await signup(Email,Name ,Password)
 
+    const handleclick = async () => {
+        await login(Email, Password)
+        
 
     }
+    console.log("USER", User)
+
     return (
         <div style={{ width: "100vw", height: "100vh", background: "linear-gradient(to bottom, #add8e6, #ffffff)" }}>
 
@@ -51,28 +52,8 @@ export default function Signup() {
 
                 borderRadius: "20px"
             }}>
-                <div style={{ margin: "0px auto" ,paddingTop: "30px", fontFamily: "arial", fontWeight: "bold", fontSize: "25px" }}> Sign up</div>
+                <div style={{ margin: "0px auto" ,paddingTop: "30px", fontFamily: "arial", fontWeight: "bold", fontSize: "25px" }}> Log In</div>
                 <div style={{ width: "90%", margin: "0 auto" }}>
-                    <Input
-                        isClearable
-                        type="text"
-                        label="Name"
-                        classNames={{ label: "text-black/50" }}
-                        color="primary"
-                        size="sm"
-                        variant="underlined"
-                        value={Name}
-                        labelPlacement='outside'
-                        placeholder="Enter your name"
-
-                        startContent={
-                            <PermIdentityIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                        }
-                        onChange={(e) => setName(e.target.value)}
-                        // placeholder="Enter your email"
-                        onClear={() => console.log("input cleared")}
-                        className="max-w-xs pb-2"
-                    />
                     <Input
                         isClearable
                         type="email"
@@ -88,7 +69,6 @@ export default function Signup() {
                             <MailOutlineIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                         }
                         placeholder="Enter your email"
-                        onClear={() => console.log("input cleared")}
                         className="max-w-xs pb-2"
                     />
                     <Input
@@ -126,7 +106,7 @@ export default function Signup() {
                             Sign Up!
                         </Button>}
                 </div>
-                <div style={{ fontSize: "14px", margin: "0 auto" }}>Already Signed In? <span style={{ color: "#0066cc", fontWeight: "600" }}><Link to="/registration/login">Log In</Link></span></div>
+                <div style={{ fontSize: "14px", margin: "0 auto" }}>Not registered yet? <span style={{ color: "#0066cc", fontWeight: "600" }}><Link to="/registration/signup">Sign Up!</Link></span></div>
                 <div></div>
             </div>
                 <Snackbar sx={{ width: "45vw", ".css-1eqdgzv-MuiPaper-root-MuiSnackbarContent-root": { fontSize: "12px" } }} open={ErrorbarStatus} autoHideDuration={3000} onClose={() => falsemark("ErrorbarStatus")} message={error} />
