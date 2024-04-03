@@ -9,7 +9,7 @@ export default function SignHook() {
     const signup = async (email, name, password) => {
         setisLoading(true)
         try {
-            const response = await fetch('https://backend-gmail-finalss.vercel.app/registration/signup', {
+            const response = await fetch('http://localhost:8000/registration/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
