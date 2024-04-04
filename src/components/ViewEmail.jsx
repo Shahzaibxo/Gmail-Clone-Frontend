@@ -20,7 +20,7 @@ export default function ViewEmail() {
   const navigate = useNavigate();
   const navigateback = useNavigate()
 
-  const { togglefunction, setStringValue } = useStore()
+  const { togglefunction, setStringValue, User } = useStore()
 
   const DeleteAPi = async () => {
     const res2 = await axios({
