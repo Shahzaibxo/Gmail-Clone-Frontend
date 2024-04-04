@@ -29,7 +29,7 @@ export default function Signup() {
 
     }
     return (
-        <div style={{ width: "100vw", height: "100vh", background: "linear-gradient(to bottom, #add8e6, #ffffff)" }}>
+        <div style={{ width: "100vw", height: "100vh", background: "linear-gradient(150deg, #a1c4fd, #c2e9fb)" }}>
 
 
             <div style={{
@@ -45,10 +45,9 @@ export default function Signup() {
                 justifyContent: "space-between",
                 width: "300px",
                 background: "white",
-                border: "2px solid #6C8AA6", /* Replace with your desired color */
+                // border: "2px solid #6C8AA6", /* Replace with your desired color */
                 // borderWidth: "10px",
-                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1), 0px 0px 0px 4px rgba(0, 0, 0, 0.1)",
-
+                boxShadow:" 0 0 10px rgba(0, 0, 0, 0.3)",
                 borderRadius: "20px"
             }}>
                 <div style={{ margin: "0px auto" ,paddingTop: "30px", fontFamily: "arial", fontWeight: "bold", fontSize: "25px" }}> Sign up</div>
@@ -108,9 +107,9 @@ export default function Signup() {
                         endContent={
                             <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
                                 {isVisible ? (
-                                    <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                                ) : (
                                     <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                                    ) : (
+                                    <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
                                 )}
                             </button>
                         }

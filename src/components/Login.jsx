@@ -28,7 +28,7 @@ export default function Login() {
     }
 
     return (
-        <div style={{ width: "100vw", height: "100vh", background: "linear-gradient(to bottom, #add8e6, #ffffff)" }}>
+        <div style={{ width: "100vw", height: "100vh", background: "linear-gradient(150deg, #a1c4fd, #c2e9fb)" }}>
 
 
             <div style={{
@@ -86,9 +86,9 @@ export default function Login() {
                         endContent={
                             <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
                                 {isVisible ? (
-                                    <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                                ) : (
                                     <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                                    ) : (
+                                    <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
                                 )}
                             </button>
                         }
