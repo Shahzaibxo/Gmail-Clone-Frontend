@@ -33,9 +33,7 @@ export default function Email({ email }) {
                     Authorization: `Bearer ${User.token}`
                 }
             });
-            console.log("star update");
         } catch (error) {
-            console.log("Error updating star:", error);
         }
 
     }
@@ -51,9 +49,7 @@ export default function Email({ email }) {
     const StarChangeHandler = async () => {
         StarRef.star = !StarRef.star
         toggleStarMutation.mutate();
-        console.log("handler clicked");
     }
-    console.log(email);
 
     return (
         <>
@@ -62,7 +58,7 @@ export default function Email({ email }) {
                 style={selectedarray.includes(email._id) ? themestatus ? { backgroundColor: "#383838", height: "auto", display: "flex", flexDirection: "row", flexWrap: "wrap", alignItems: " center",  cursor: "pointer", borderRadius: "4px", borderCollapse: "separate" } : { backgroundColor: "#3676bf", height: "auto", display: "flex", flexDirection: "row", flexWrap: "wrap", alignItems: " center",  cursor: "pointer", borderRadius: "4px", borderCollapse: "separate" } : { height: "auto" ,display: "flex", flexDirection: "row", flexWrap: "wrap", alignItems: " center",  cursor: "pointer", borderCollapse: "separate" }}>
                 <Avatar
                     size="sm"
-                    className="mt-2 lg:mt-2 lg:mb-2 ml-2"
+                    className="mt-3 lg:mt-2 lg:mb-2 ml-2"
                     showFallback
                     src='https://images.unsplash.com/broken' />
                 <Box
@@ -106,7 +102,7 @@ export default function Email({ email }) {
                     onClick={onclick}
                     sx={{ paddingLeft: "40px", display: "flex", flexGrow: 1, alignItems: "baseline", }}>
                     <Typography
-                        sx={{ paddingLeft: "7px", fontSize: { xs: "11px", lg: "14px" }, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", width: { xs: "260px", sm: "500px", lg: "700px" } }}>
+                        sx={{ paddingLeft: "44px", fontSize: { xs: "11px", lg: "14px" }, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", width: { xs: "260px", sm: "500px", lg: "700px" } }}>
                         {email.subject}&nbsp;-&nbsp;{email.body}
                     </Typography>
                     <Typography
