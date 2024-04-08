@@ -58,11 +58,11 @@ export default function Emails() {
       clearSelectedArray()
     }
   }
-
+console.log(selectedarray)
   const DeleteAPi = async () => {
     const res2 = await axios({
       method: API_URLS.movetobin.method,
-      url: `https://backend-gmail-finalss.vercel.app/{API_URLS.movetobin.endpoint}/${param}`,
+      url: `https://backend-gmail-finalss.vercel.app/${API_URLS.movetobin.endpoint}/${param}`,
       data: selectedarray,
       headers:{
         "Authorization":`Bearer ${User.token}`
