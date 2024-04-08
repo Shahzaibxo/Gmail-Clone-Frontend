@@ -54,7 +54,7 @@ export default function Email({ email }) {
     return (
         <>
             <div
-                className='box'
+                className='box pb-3'
                 style={selectedarray.includes(email._id) ? themestatus ? { backgroundColor: "#383838", height: "auto", display: "flex", flexDirection: "row", flexWrap: "wrap", alignItems: " center",  cursor: "pointer", borderRadius: "4px", borderCollapse: "separate" } : { backgroundColor: "#3676bf", height: "auto", display: "flex", flexDirection: "row", flexWrap: "wrap", alignItems: " center",  cursor: "pointer", borderRadius: "4px", borderCollapse: "separate" } : { height: "auto" ,display: "flex", flexDirection: "row", flexWrap: "wrap", alignItems: " center",  cursor: "pointer", borderCollapse: "separate" }}>
                 <Avatar
                     size="sm"
